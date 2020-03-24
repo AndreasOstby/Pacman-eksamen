@@ -21,6 +21,8 @@ public:
     bool gameOver = false;
     int x = 0;
     int y = 0;
+    const Uint8 *keys;
+    int numKeys;
 };
 
 

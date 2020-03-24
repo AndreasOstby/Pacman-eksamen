@@ -24,13 +24,11 @@ bool Screen::init(const char *title, int width, int height) {
         return true;
     }
     SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
+    keys = SDL_GetKeyboardState(&numKeys);
 
 }
 
 void Screen::handleEvents() {
-    const Uint8 *keys;
-    int numKeys;
-    keys = SDL_GetKeyboardState(&numKeys);
     SDL_PumpEvents();
     if (keys[SDL_SCANCODE_ESCAPE] != 0){
         gameOver = true;
