@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.15)
-project(untitled4)
+project(Pacman-eksamen)
 
 set(CMAKE_CXX_STANDARD 17)
 
@@ -11,8 +11,8 @@ include_directories(
         ${SDL2_INCLUDE_DIR}
         ${SDL2_IMAGE_INCLUDE_DIR}
         ${SDL2_TTF_INCLUDE_DIR})
-add_executable(untitled4 main.cpp)
-target_link_libraries(untitled4
+add_executable(Pacman-eksamen main.cpp Screen.cpp Screen.h)
+target_link_libraries(Pacman-eksamen
         ${SDL2_LIBRARY}
         ${SDL2_IMAGE_LIBRARIES}
         ${SDL2_TTF_LIBRARIES})
