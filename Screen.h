@@ -11,9 +11,16 @@
 class Screen {
 public:
     Screen ();
-    bool Init (const char* title, int width, int height);
+    ~Screen();
+    bool init (const char* title, int width, int height);
+    void handleEvents();
+    void render();
     SDL_Window *window;
     SDL_Renderer *renderer;
+    void draw();
+    bool gameOver = false;
+    int x = 0;
+    int y = 0;
 };
 
 

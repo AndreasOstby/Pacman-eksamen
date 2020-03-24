@@ -4,8 +4,10 @@
 
 int main() {
     Screen screen;
-    screen.Init("Game WindoW", 600, 600);
-    SDL_Delay(3000);
-    SDL_DestroyWindow(screen.window);
-    SDL_Quit();
+    screen.init("Game Window", 600, 600);
+    while(!screen.gameOver){
+        screen.handleEvents();
+        screen.render();
+    }
+
 }
