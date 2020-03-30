@@ -16,7 +16,7 @@ public:
     void render();
     SDL_Window *window;
     SDL_Renderer *renderer;
-    void draw(SDL_Texture &texture, SDL_Rect &coord);
+    void draw(SDL_Texture *texture, SDL_Rect *coord);
     bool gameOver = false;
     int x = 0;
     int y = 0;

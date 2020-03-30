@@ -5,14 +5,17 @@
 #include "Sprite.h"
 
 Sprite::Sprite(char *dir, SDL_Renderer &renderer) {
-    SDL_Surface *surface = SDL_LoadBMP(dir);
+    SDL_Surface *surface = IMG_Load(dir);
     if (surface == nullptr) {
     }
     image = SDL_CreateTextureFromSurface(&renderer, surface);
-    SDL_Rect coord;
-    coord.x = 0;
-    coord.y = 0;
-    coord.w = 40;
-    coord.h = 50;
+    position.x = 0;
+    position.y = 0;
+    position.w = 40;
+    position.h = 50;
     SDL_FreeSurface(surface);
+}
+
+void Sprite::render(Screen screen) {
+    screen.draw(image, &position);
 }

@@ -3,6 +3,7 @@
 //
 
 #include "Screen.h"
+#include "Sprite.h"
 #include <SDL.h>
 #include <iostream>
 
@@ -40,7 +41,6 @@ void Screen::handleEvents() {
 }
 
 void Screen::render() {
-    // draw();
     SDL_RenderPresent(renderer);
     SDL_RenderClear(renderer);
 }
@@ -51,9 +51,10 @@ Screen::~Screen() {
     SDL_Quit();
 }
 
-void Screen::draw(SDL_Texture &texture, SDL_Rect &coord ) {
+void Screen::draw(SDL_Texture *texture, SDL_Rect *coord ) {
 
-    SDL_RenderCopy(renderer, &texture, nullptr, &coord);
+    SDL_RenderCopy(renderer, texture, nullptr, coord);
+
 
 }
 

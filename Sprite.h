@@ -7,6 +7,8 @@
 
 
 #include <SDL.h>
+#include <SDL_image.h>
+#include "Screen.h"
 
 class Sprite {
 
@@ -16,6 +18,7 @@ private:
 
 public:
     Sprite(char *dir, SDL_Renderer &renderer);
+    void render(Screen screen);
 };
 
 

@@ -5,6 +5,7 @@
 #include "GameManager.h"
 #include "Screen.h"
 #include "PlayerController.h"
+#include "Sprite.h"
 
 void GameManager::setup() {
     screen.init("Game Window", 600, 600);
@@ -22,11 +23,13 @@ void GameManager::update() {
 }
 
 void GameManager::run() {
-
+    Sprite sprite("../resources/entitySheet.png", *screen.renderer);
     while(!screen.gameOver){
         screen.handleEvents();
         update();
+        sprite.render(screen);
         screen.render();
+
     }
 
 }
