@@ -5,6 +5,7 @@
 
 int main() {
     GameManager game;
-    game.update();
+    game.setup();
+    game.run();
 
 }

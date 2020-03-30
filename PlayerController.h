@@ -6,6 +6,7 @@
 #define PACMAN_EKSAMEN_PLAYERCONTROLLER_H
 
 
+#include "Screen.h"
 #include "Controller.h"
 
 class PlayerController: public Controller {
@@ -18,7 +19,7 @@ private:
 
 public:
     PlayerController(int keyUp, int keyDown, int keyLeft, int keyRight);
-    void move();
+    void move(const Uint8 *keys);
 
 
 

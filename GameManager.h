@@ -17,6 +17,7 @@ public:
     std::vector <std::unique_ptr<Controller>> players;
     void setup();
     void setMap();
+    void run();
     void update();
     Screen screen;
 

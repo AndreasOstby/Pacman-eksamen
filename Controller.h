@@ -5,13 +5,14 @@
 #ifndef PACMAN_EKSAMEN_CONTROLLER_H
 #define PACMAN_EKSAMEN_CONTROLLER_H
 #include "Character.h"
+#include "Screen.h"
 
 class Controller {
 
 public:
     void setCharacter(Character c);
 
-    virtual void move();
+    virtual void move(const Uint8 *keys) = 0;
 
 private:
     Character character;

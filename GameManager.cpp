@@ -16,9 +16,16 @@ void GameManager::setMap() {
 }
 
 void GameManager::update() {
+    for (int i = 0; i<players.size(); i++){
+        players[i]->move(screen.keys);
+    }
+}
+
+void GameManager::run() {
 
     while(!screen.gameOver){
         screen.handleEvents();
+        update();
         screen.render();
     }
 

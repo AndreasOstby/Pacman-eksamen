@@ -36,22 +36,11 @@ void Screen::handleEvents() {
     if (SDL_HasEvent(SDL_QUIT)){
         gameOver = true;
     }
-    if (keys[SDL_SCANCODE_D] != 0){
-        x++;
-    }
-    if (keys[SDL_SCANCODE_A] != 0){
-        x--;
-    }
-    if (keys[SDL_SCANCODE_S] != 0){
-        y++;
-    }
-    if (keys[SDL_SCANCODE_W] != 0){
-        y--;
-    }
+
 }
 
 void Screen::render() {
-    draw();
+    // draw();
     SDL_RenderPresent(renderer);
     SDL_RenderClear(renderer);
 }
@@ -62,18 +51,9 @@ Screen::~Screen() {
     SDL_Quit();
 }
 
-void Screen::draw() {
-    SDL_Surface *surface = SDL_LoadBMP("../resources/mario.bmp");
-    if (surface == nullptr) {
-    }
-    SDL_Texture *texture = SDL_CreateTextureFromSurface(renderer, surface);
-    SDL_Rect coord;
-    coord.x = x;
-    coord.y = y;
-    coord.w = 40;
-    coord.h = 50;
-    SDL_FreeSurface(surface);
-    SDL_RenderCopy(renderer, texture, nullptr, &coord);
+void Screen::draw(SDL_Texture &texture, SDL_Rect &coord ) {
+
+    SDL_RenderCopy(renderer, &texture, nullptr, &coord);
 
 }
 
