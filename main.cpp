@@ -1,13 +1,10 @@
 #include <iostream>
 #include <SDL.h>
 #include "Screen.h"
+#include "GameManager.h"
 
 int main() {
-    Screen screen;
-    screen.init("Game Window", 600, 600);
-    while(!screen.gameOver){
-        screen.handleEvents();
-        screen.render();
-    }
+    GameManager game;
+    game.update();
 
 }
