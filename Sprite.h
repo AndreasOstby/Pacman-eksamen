@@ -13,12 +13,15 @@
 class Sprite {
 
 private:
-    SDL_Texture *image;
+    SDL_Surface *image;
     SDL_Rect position;
 
 public:
-    Sprite(char *dir, SDL_Renderer &renderer);
-    void render(Screen screen);
+    Sprite(char *dir);
+    void render(SDL_Renderer *renderer);
+
+    ~Sprite();
+
 };
 
 

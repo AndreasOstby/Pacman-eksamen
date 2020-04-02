@@ -23,11 +23,10 @@ void GameManager::update() {
 }
 
 void GameManager::run() {
-    Sprite sprite("../resources/entitySheet.png", *screen.renderer);
+
     while(!screen.gameOver){
         screen.handleEvents();
         update();
-        sprite.render(screen);
         screen.render();
 
     }

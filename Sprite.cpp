@@ -4,18 +4,26 @@
 
 #include "Sprite.h"
 
-Sprite::Sprite(char *dir, SDL_Renderer &renderer) {
-    SDL_Surface *surface = IMG_Load(dir);
-    if (surface == nullptr) {
+Sprite::Sprite(char *dir) {
+    image = IMG_Load(dir);
+    if (image == nullptr) {
     }
-    image = SDL_CreateTextureFromSurface(&renderer, surface);
     position.x = 0;
     position.y = 0;
     position.w = 40;
     position.h = 50;
-    SDL_FreeSurface(surface);
 }
 
-void Sprite::render(Screen screen) {
-    screen.draw(image, &position);
+void Sprite::render(SDL_Renderer *renderer) {
+    SDL_Texture *drawable = SDL_CreateTextureFromSurface(renderer, image);
+    SDL_RenderCopy(renderer, drawable, nullptr, &position);
+
+
+
+
+}
+
+Sprite::~Sprite() {
+    SDL_FreeSurface(image);
+
 }

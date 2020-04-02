@@ -3,3 +3,20 @@
 //
 
 #include "Entity.h"
+
+bool Entity::isColliding(Character character) {
+    return false;
+}
+
+void Entity::action(Character character) {
+
+}
+
+void Entity::update() {
+
+}
+
+Entity::Entity() {
+
+}
+
