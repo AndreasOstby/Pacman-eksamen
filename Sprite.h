@@ -5,22 +5,30 @@
 #ifndef PACMAN_EKSAMEN_SPRITE_H
 #define PACMAN_EKSAMEN_SPRITE_H
 
-
+#include <iostream>
 #include <SDL.h>
 #include <SDL_image.h>
+#include <map>
 #include "Screen.h"
+
+
 
 class Sprite {
 
 private:
     SDL_Surface *image;
-    SDL_Rect position;
+    std::map<std::string, std::vector<SDL_Rect>> animations;
+    int index = 0;
+    std::string state = "default";
 
 public:
-    Sprite(char *dir);
-    void render(SDL_Renderer *renderer);
+    explicit Sprite(char *dir, std::map<std::string, std::vector<SDL_Rect>> &anim);
+    void render(SDL_Renderer *renderer, SDL_Rect *position);
 
     ~Sprite();
+    void setSprite(char* dir);
+    void update();
+    void setState(std::string newState);
 
 };
 

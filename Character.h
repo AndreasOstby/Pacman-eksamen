@@ -8,15 +8,17 @@
 
 class Character: virtual public Entity {
 
+protected:
     SDL_Point velocity {
         0,0
     };
     SDL_Point newVelocity {
         0,0
     };
-    float Speed = 1;
+    float speed = 1;
 public:
     Character();
+    void setVelocity(int x,int y);
 
 
 };

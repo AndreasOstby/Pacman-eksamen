@@ -14,7 +14,7 @@ public:
 
     virtual void move(const Uint8 *keys) = 0;
 
-private:
+protected:
     Character character;
 
 

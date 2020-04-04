@@ -7,3 +7,8 @@
 Character::Character() {
 
 }
+
+void Character::setVelocity(int x, int y) {
+    newVelocity.x = x;
+    newVelocity.y = y;
+}

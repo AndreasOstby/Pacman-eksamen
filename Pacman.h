@@ -14,6 +14,7 @@ class Pacman: virtual public Character  {
 
     std::map<std::string, std::vector<SDL_Rect>> animations ;
     Pacman();
+    void move(int dt);
 };
 
 

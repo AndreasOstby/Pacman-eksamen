@@ -11,16 +11,16 @@ PlayerController::PlayerController(int keyUp, int keyDown, int keyLeft, int keyR
 
 void PlayerController::move(const Uint8 *keys) {
     if (keys[right] != 0){
-        //x++;
+        character.setVelocity(1,0);
     }
     if (keys[left] != 0){
-        //x--;
+        character.setVelocity(-1,0);
     }
     if (keys[down] != 0){
-        //y++;
+        character.setVelocity(0,1);
     }
     if (keys[up] != 0){
-        //y--;
+        character.setVelocity(0,-1);
     }
 }
 

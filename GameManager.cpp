@@ -6,6 +6,7 @@
 #include "Screen.h"
 #include "PlayerController.h"
 #include "Sprite.h"
+#include "Pacman.h"
 
 void GameManager::setup() {
     screen.init("Game Window", 600, 600);
@@ -22,7 +23,14 @@ void GameManager::update() {
     }
 }
 
+
 void GameManager::run() {
+    PlayerController player(
+            SDL_SCANCODE_W,SDL_SCANCODE_S,SDL_SCANCODE_A,SDL_SCANCODE_D
+            );
+    Pacman p();
+    player.setCharacter(reinterpret_cast<Character &&>(p));
+    players.emplace_back(std::make_unique<PlayerController> (player));
 
     while(!screen.gameOver){
         screen.handleEvents();

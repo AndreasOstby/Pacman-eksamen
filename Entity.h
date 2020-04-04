@@ -9,13 +9,21 @@
 #include "Character.h"
 
 
-class Entity: virtual public Sprite {
+class Entity {
+
+protected:
+    SDL_Point position{
+        0,0
+    };
+    static scl = 20;
+
 
 public:
     Entity();
     bool isColliding(Character character);
     void action(Character character);
     void update();
+    Sprite sprite;
 };
 
 
