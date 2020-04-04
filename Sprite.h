@@ -6,6 +6,7 @@
 #define PACMAN_EKSAMEN_SPRITE_H
 
 #include <iostream>
+#include <vector>
 #include <SDL.h>
 #include <SDL_image.h>
 #include <map>
@@ -22,7 +23,7 @@ private:
     std::string state = "default";
 
 public:
-    explicit Sprite(char *dir, std::map<std::string, std::vector<SDL_Rect>> &anim);
+    explicit Sprite(char *dir, std::map<std::string, std::vector<SDL_Rect>> anim);
     void render(SDL_Renderer *renderer, SDL_Rect *position);
 
     ~Sprite();
