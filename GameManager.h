@@ -20,6 +20,7 @@ public:
     void run();
     void update();
     Screen screen;
+    void render();
 
 
 

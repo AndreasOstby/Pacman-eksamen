@@ -3,6 +3,7 @@
 //
 
 #include "Entity.h"
+#include "Character.h"
 
 bool Entity::isColliding(Character character) {
     return false;
@@ -16,7 +17,19 @@ void Entity::update() {
 
 }
 
-Entity::Entity() {
+
+Entity::Entity(){
 
 }
+
+void Entity::render(SDL_Renderer *renderer) {
+    sprite.render(renderer, &position);
+
+}
+
+
+
+
+
+
 

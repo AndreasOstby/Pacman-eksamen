@@ -6,7 +6,8 @@
 #define PACMAN_EKSAMEN_CHARACTER_H
 #include "Entity.h"
 
-class Character: virtual public Entity {
+
+class Character: public Entity {
 
 protected:
     SDL_Point velocity {

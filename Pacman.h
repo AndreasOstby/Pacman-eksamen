@@ -10,9 +10,11 @@
 #include <map>
 #include "Character.h"
 
-class Pacman: virtual public Character  {
+class Pacman: public Character  {
 
-    std::map<std::string, std::vector<SDL_Rect>> animations ;
+    std::map<std::string, std::vector<SDL_Rect>> animations;
+
+public:
     Pacman();
     void move(int dt);
 };

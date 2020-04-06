@@ -7,7 +7,7 @@
 
 
 
-Pacman::Pacman(): Character(), Entity() {
+Pacman::Pacman(): Character() {
 
 
 
@@ -17,7 +17,9 @@ Pacman::Pacman(): Character(), Entity() {
     values.emplace_back(SDL_Rect{0,0,16,16});
     values.emplace_back(SDL_Rect{16,0,16,16});
     animations [key] = values;
-    sprite =  Sprite("../resources/entitySheet.png", animations);
+    std::string dir = "../resources/entitySheet.png"; // .c_str();
+    char* dirChar = const_cast<char *>(dir.c_str());
+    sprite = Sprite(dirChar, animations);
 
 
 
@@ -36,5 +38,4 @@ void Pacman::move(int dt) {
             break;
         }
     }
-    sprite.render()
 }

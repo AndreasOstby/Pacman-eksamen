@@ -6,16 +6,18 @@
 #define PACMAN_EKSAMEN_ENTITY_H
 
 #include "Sprite.h"
-#include "Character.h"
 
 
+
+class Character;
 class Entity {
 
 protected:
-    SDL_Point position{
-        0,0
+    SDL_Rect position{
+        0,0,0,0
     };
-    static scl = 20;
+    static int scl;
+
 
 
 public:
@@ -24,8 +26,10 @@ public:
     void action(Character character);
     void update();
     Sprite sprite;
+    void render(SDL_Renderer *renderer);
 };
 
+int Entity::scl = 20;
 
 
 #endif //PACMAN_EKSAMEN_ENTITY_H

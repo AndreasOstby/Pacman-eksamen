@@ -10,12 +10,10 @@
 class Controller {
 
 public:
-    void setCharacter(Character c);
+    void setCharacter(std::unique_ptr<Character> &c);
 
     virtual void move(const Uint8 *keys) = 0;
-
-protected:
-    Character character;
+    std::unique_ptr<Character> character;
 
 
 };

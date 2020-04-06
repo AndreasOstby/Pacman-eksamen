@@ -41,8 +41,6 @@ void Screen::handleEvents() {
 }
 
 void Screen::render() {
-    Sprite sprite("../resources/entitySheet.png");
-    sprite.render(renderer);
     SDL_RenderPresent(renderer);
     SDL_RenderClear(renderer);
 }

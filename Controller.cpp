@@ -4,6 +4,8 @@
 
 #include "Controller.h"
 
-void Controller::setCharacter(Character c) {
+void Controller::setCharacter(std::unique_ptr<Character> &c) {
+    character = std::move(c);
+
 
 }

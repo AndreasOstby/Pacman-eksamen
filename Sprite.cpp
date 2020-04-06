@@ -37,3 +37,7 @@ void Sprite::update() {
 void Sprite::setState(std::string newState) {
     state = std::move(newState);
 }
+
+Sprite::Sprite() {
+
+}
