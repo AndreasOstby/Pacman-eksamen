@@ -17,6 +17,7 @@ class Pacman: public Character  {
 public:
     Pacman();
     void move(int dt);
+    void render(SDL_Renderer *renderer);
 };
 
 

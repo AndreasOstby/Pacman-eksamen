@@ -20,7 +20,7 @@ protected:
 public:
     Character();
     void setVelocity(int x,int y);
-
+    virtual void render(SDL_Renderer *renderer) = 0;
 
 };
 

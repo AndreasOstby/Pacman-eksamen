@@ -16,7 +16,7 @@ protected:
     SDL_Rect position{
         0,0,0,0
     };
-    static int scl;
+
 
 
 
@@ -27,9 +27,8 @@ public:
     void update();
     Sprite sprite;
     void render(SDL_Renderer *renderer);
+    virtual ~Entity(){}
 };
-
-int Entity::scl = 20;
 
 
 #endif //PACMAN_EKSAMEN_ENTITY_H

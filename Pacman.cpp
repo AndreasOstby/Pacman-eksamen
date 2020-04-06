@@ -28,7 +28,7 @@ Pacman::Pacman(): Character() {
 void Pacman::move(int dt) {
     int mLeft = dt*speed;
     while (mLeft > 0){
-        int diffX = (velocity.x*(scl*2)-position.x)%(scl*2);
+        int diffX = (velocity.x*(20*2)-position.x)%(20*2);
         if(mLeft >= abs(diffX)){
             position.x+=diffX;
             velocity = newVelocity;
@@ -38,4 +38,8 @@ void Pacman::move(int dt) {
             break;
         }
     }
+}
+
+void Pacman::render(SDL_Renderer *renderer) {
+    std::cout << "asd" << std::endl;
 }

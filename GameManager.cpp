@@ -28,15 +28,13 @@ void GameManager::run() {
     std::unique_ptr<Controller> player = std::make_unique<PlayerController>(
             SDL_SCANCODE_W,SDL_SCANCODE_S,SDL_SCANCODE_A,SDL_SCANCODE_D
             );
-    std::unique_ptr<Character> p = std::make_unique<Pacman>();
-    player->setCharacter(p);
-    players.push_back(std::move(player));
+    player->setCharacter(std::make_unique<Pacman>());
+    players.emplace_back(std::move(player));
 
     while(!screen.gameOver){
         screen.handleEvents();
         update();
         render();
-
     }
 
 }
@@ -44,6 +42,7 @@ void GameManager::run() {
 void GameManager::render() {
     for (int i = 0; i<players.size(); i++) {
         players[i]->character->render(screen.renderer);
+
     }
     screen.render();
 
