@@ -9,21 +9,21 @@ bool Entity::isColliding(Character character) {
     return false;
 }
 
+void Entity::render(Screen& screen) {
+    screen.draw(spriteSheet, &position, &animations[state][frame]);
+
+}
+
 void Entity::action(Character character) {
 
 }
 
 void Entity::update() {
-
+    frame++;
+    frame %= animations[state].size();
 }
 
-
-Entity::Entity(){
-
-}
-
-void Entity::render(SDL_Renderer *renderer) {
-    sprite.render(renderer, &position);
+Entity::Entity() {
 
 }
 

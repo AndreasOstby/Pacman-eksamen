@@ -6,22 +6,27 @@
 #define PACMAN_EKSAMEN_SCREEN_H
 
 #include <SDL.h>
+#include <map>
+#include <iostream>
 
 class Screen {
 public:
     Screen ();
     ~Screen();
+    std::map<std::string, SDL_Texture*> spritesLoaded;
+    void loadSprite(std::string dir, std::string name);
     bool init (const char* title, int width, int height);
     void handleEvents();
     void render();
     SDL_Window *window;
     SDL_Renderer *renderer;
-    void draw(SDL_Texture *texture, SDL_Rect *coord);
+    void draw(std::string& spriteSheet, SDL_Rect *coord, SDL_Rect *crop);
     bool gameOver = false;
     int x = 0;
     int y = 0;
     const Uint8 *keys;
     int numKeys;
+    void clear();
 };
 
 

@@ -18,15 +18,16 @@ bool Screen::init(const char *title, int width, int height) {
     window = SDL_CreateWindow(title, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, width, height,
                               SDL_WINDOW_SHOWN | SDL_WINDOW_OPENGL);
     if (window == nullptr) {
-        return true;
+        return false;
     }
     renderer = SDL_CreateRenderer(window, -1, 0);
     if (renderer == nullptr) {
-        return true;
+        return false;
     }
-    SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
+    SDL_SetRenderDrawColor(renderer, 50, 255, 255, 255);
     keys = SDL_GetKeyboardState(&numKeys);
 
+    return true;
 }
 
 void Screen::handleEvents() {
@@ -42,7 +43,7 @@ void Screen::handleEvents() {
 
 void Screen::render() {
     SDL_RenderPresent(renderer);
-    SDL_RenderClear(renderer);
+
 }
 
 Screen::~Screen() {
@@ -51,10 +52,25 @@ Screen::~Screen() {
     SDL_Quit();
 }
 
-void Screen::draw(SDL_Texture *texture, SDL_Rect *coord ) {
+void Screen::draw(std::string& spriteSheet, SDL_Rect *coord, SDL_Rect *crop) {
 
-    SDL_RenderCopy(renderer, texture, nullptr, coord);
+    SDL_RenderCopy(renderer, spritesLoaded[spriteSheet], crop, coord);
 
 
+}
+
+void Screen::clear() {
+    SDL_RenderClear(renderer);
+}
+
+void Screen::loadSprite(std::string dir, std::string name) {
+    SDL_Surface* sur = IMG_Load(dir.c_str());
+    if (sur == nullptr) {
+        std::cout << "no image" << std::endl;
+    }
+
+    spritesLoaded[name] = SDL_CreateTextureFromSurface(renderer, sur);
+
+    SDL_FreeSurface(sur);
 }
 

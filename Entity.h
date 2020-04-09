@@ -6,7 +6,7 @@
 #define PACMAN_EKSAMEN_ENTITY_H
 
 #include "Sprite.h"
-
+#include "Screen.h"
 
 
 class Character;
@@ -17,16 +17,18 @@ protected:
         0,0,0,0
     };
 
-
-
+    std::map<std::string, std::vector<SDL_Rect>> animations;
+    std::string state = "default";
+    std::string spriteSheet;
+    int frame = 0;
 
 public:
     Entity();
     bool isColliding(Character character);
-    void action(Character character);
+    virtual void action(Character character);
     void update();
     Sprite sprite;
-    void render(SDL_Renderer *renderer);
+    void render(Screen &screen);
     virtual ~Entity(){}
 };
 

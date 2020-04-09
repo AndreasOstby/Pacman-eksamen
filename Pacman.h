@@ -12,12 +12,10 @@
 
 class Pacman: public Character  {
 
-    std::map<std::string, std::vector<SDL_Rect>> animations;
 
 public:
-    Pacman();
+    explicit Pacman();
     void move(int dt);
-    void render(SDL_Renderer *renderer);
 };
 
 

@@ -4,23 +4,30 @@
 
 #include <vector>
 #include "Pacman.h"
+#include "Screen.h"
 
 
+Pacman::Pacman(): Character(){
 
-Pacman::Pacman(): Character() {
-
-
-
+    spriteSheet = "entities";
     std::string key = "moveLeft";
 
     std::vector<SDL_Rect> values;
-    values.emplace_back(SDL_Rect{0,0,16,16});
-    values.emplace_back(SDL_Rect{16,0,16,16});
-    animations [key] = values;
-    std::string dir = "../resources/entitySheet.png"; // .c_str();
-    char* dirChar = const_cast<char *>(dir.c_str());
-    sprite = Sprite(dirChar, animations);
+    int xOffset = 3;
+    values.emplace_back(SDL_Rect{0 + xOffset,0,32-xOffset-1,32-xOffset});
+    values.emplace_back(SDL_Rect{32 + xOffset,0,32-xOffset-1,32-xOffset});
+    animations[key] = values;
 
+    state = key;
+  /*  std::string dir = "../resources/entitySheet_1.png"; // .c_str();
+    char* dirChar = const_cast<char *>(dir.c_str());
+    sprite = Sprite(dirChar, renderer, animations);
+    sprite.setState(key);
+*/
+    position.x = 100;
+    position.y = 100;
+    position.w = 100;
+    position.h = 100;
 
 
 }
@@ -40,6 +47,4 @@ void Pacman::move(int dt) {
     }
 }
 
-void Pacman::render(SDL_Renderer *renderer) {
-    std::cout << "asd" << std::endl;
-}
+

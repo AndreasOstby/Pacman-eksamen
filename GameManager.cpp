@@ -10,7 +10,7 @@
 
 void GameManager::setup() {
     screen.init("Game Window", 600, 600);
-
+    screen.loadSprite("../resources/entitySheet_1.png", "entities");
 }
 
 void GameManager::setMap() {
@@ -20,6 +20,7 @@ void GameManager::setMap() {
 void GameManager::update() {
     for (int i = 0; i<players.size(); i++){
         players[i]->move(screen.keys);
+        players[i]->character->update();
     }
 }
 
@@ -40,9 +41,9 @@ void GameManager::run() {
 }
 
 void GameManager::render() {
+    screen.clear();
     for (int i = 0; i<players.size(); i++) {
-        players[i]->character->render(screen.renderer);
-
+        players[i]->character->render(screen);
     }
     screen.render();
 
