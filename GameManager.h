@@ -6,11 +6,13 @@
 #define PACMAN_EKSAMEN_GAMEMANAGER_H
 #include <vector>
 #include <iostream>
+#include <chrono>
 #include "Entity.h"
 #include "Controller.h"
 #include "Screen.h"
 
 class GameManager {
+    std::chrono::milliseconds timeExpired;
 
 public:
     Entity map [28] [31];
@@ -21,7 +23,8 @@ public:
     void update();
     Screen screen;
     void render();
-
+    void getTimeDifference();
+    std::chrono::milliseconds getTime();
 
 
 };

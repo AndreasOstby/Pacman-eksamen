@@ -60,6 +60,7 @@ void Screen::draw(std::string& spriteSheet, SDL_Rect *coord, SDL_Rect *crop) {
 }
 
 void Screen::clear() {
+    SDL_SetRenderDrawColor(renderer, 50, 255, 255, 255);
     SDL_RenderClear(renderer);
 }
 

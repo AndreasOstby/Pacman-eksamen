@@ -12,10 +12,13 @@
 
 class Pacman: public Character  {
 
+    void calculateMove(int &pos, int &vel, double &distanceLeft);
 
 public:
     explicit Pacman();
-    void move(int dt);
+    void move(long dt);
+    void update(long dt) override;
+    void updateVelocity() override;
 };
 
 

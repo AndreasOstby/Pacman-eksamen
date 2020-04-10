@@ -18,7 +18,7 @@ void Entity::action(Character character) {
 
 }
 
-void Entity::update() {
+void Entity::update(long dt) {
     frame++;
     frame %= animations[state].size();
 }
