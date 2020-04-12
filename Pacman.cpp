@@ -12,7 +12,7 @@ Pacman::Pacman(): Character(){
     spriteSheet = "entities";
 
     std::vector<SDL_Rect> valuesRight;
-    int xOffset = 3;
+    int xOffset = 0;
     valuesRight.emplace_back(SDL_Rect{0 + xOffset,0,32-xOffset-1,32-xOffset});
     valuesRight.emplace_back(SDL_Rect{32 + xOffset,0,32-xOffset-1,32-xOffset});
     animations["moveRight"] = valuesRight;
@@ -62,17 +62,17 @@ void Pacman::move(long dt) {
 void Pacman::calculateMove(int &pos, int &vel, double &distanceLeft) {
     double diff = (vel*(20*2)-(pos%(20*2)))%(20*2);
 
-    std::cout << "pos: " << pos << std::endl;
+    /*std::cout << "pos: " << pos << std::endl;
     std::cout << "velocity: " << vel << std::endl;
     std::cout << "diffX: " << diff << std::endl;
-    std::cout << "mLeft: " << distanceLeft << std::endl;
+    std::cout << "mLeft: " << distanceLeft << std::endl;*/
 
     if(distanceLeft >= abs(diff) && diff != 0){
         pos+=diff;
         updateVelocity();
         distanceLeft -= abs(diff);
 
-        std::cout << "newVelocity: " << distanceLeft << std::endl;
+        //std::cout << "newVelocity: " << distanceLeft << std::endl;
     } else {
         pos += distanceLeft*vel;
         distanceLeft = 0;

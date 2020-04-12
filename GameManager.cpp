@@ -1,28 +1,52 @@
 //
 // Created by Baste Angelfoss on 30/03/2020.
 //
-
 #include "GameManager.h"
-#include "Screen.h"
-#include "PlayerController.h"
-#include "Sprite.h"
-#include "Pacman.h"
-#include "Wall.h"
+
+
 
 void GameManager::setup() {
     screen.init("Game Window", 600, 600);
     screen.loadSprite("../resources/entitySheet_1.png", "entities");
 
-
+    setMap(0);
 }
 
-void GameManager::setMap() {
-    for (int x = 0; x < 28 ; ++x) {
-        std::vector<std::unique_ptr<Entity>> row;
-        std::unique_ptr<Entity> wall = std::make_unique<Wall>();
-        row.emplace_back(std::move(wall));
-        map.emplace_back(row);
+bool GameManager::setMap(int id) {
+
+    std::ifstream mapFile ("../Maps/0.txt");
+    if (!mapFile.is_open())
+    {
+        return false;
     }
+
+    char ch;
+    while (mapFile >> std::noskipws >> ch) {
+        std::vector<std::unique_ptr<Entity>> row;
+
+        switch (ch) {
+            case 'w':
+                row.emplace_back(std::make_unique<Wall>());
+                break;
+
+            case 'p':
+                row.emplace_back(std::make_unique<Pellet>());
+                break;
+
+            case 'P':
+                row.emplace_back(std::make_unique<PowerPellet>());
+                break;
+
+            default:
+                row.emplace_back(nullptr);
+        }
+        std::cout << ch;
+        map.emplace_back(std::move(row));
+        break;
+    }
+
+    mapFile.close();
+    return true;
 }
 
 void GameManager::update() {

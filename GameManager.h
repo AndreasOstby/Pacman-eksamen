@@ -7,9 +7,17 @@
 #include <vector>
 #include <iostream>
 #include <chrono>
+#include <fstream>
+
 #include "Entity.h"
 #include "Controller.h"
 #include "Screen.h"
+#include "PlayerController.h"
+#include "Sprite.h"
+#include "Pacman.h"
+#include "Wall.h"
+#include "Pellet.h"
+#include "PowerPellet.h"
 
 class GameManager {
     std::chrono::milliseconds timeExpired;
@@ -18,7 +26,7 @@ public:
     std::vector <std::vector<std::unique_ptr<Entity>>> map;
     std::vector <std::unique_ptr<Controller>> players;
     void setup();
-    void setMap();
+    bool setMap(int id);
     void run();
     void update();
     Screen screen;
