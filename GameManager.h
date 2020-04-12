@@ -15,7 +15,7 @@ class GameManager {
     std::chrono::milliseconds timeExpired;
 
 public:
-    Entity map [28] [31];
+    std::vector <std::vector<std::unique_ptr<Entity>>> map;
     std::vector <std::unique_ptr<Controller>> players;
     void setup();
     void setMap();

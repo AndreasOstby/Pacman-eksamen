@@ -7,6 +7,7 @@
 #include "PlayerController.h"
 #include "Sprite.h"
 #include "Pacman.h"
+#include "Wall.h"
 
 void GameManager::setup() {
     screen.init("Game Window", 600, 600);
@@ -16,7 +17,12 @@ void GameManager::setup() {
 }
 
 void GameManager::setMap() {
-
+    for (int x = 0; x < 28 ; ++x) {
+        std::vector<std::unique_ptr<Entity>> row;
+        std::unique_ptr<Entity> wall = std::make_unique<Wall>();
+        row.emplace_back(std::move(wall));
+        map.emplace_back(row);
+    }
 }
 
 void GameManager::update() {
