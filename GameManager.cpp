@@ -19,16 +19,16 @@ bool GameManager::setMap(int id) {
     {
         return false;
     }
-
+    int indexY = 0;
     std::string line;
     while (std::getline(mapFile, line)) {
         std::vector<std::unique_ptr<Entity>> row;
-
+        int indexX = 0;
         for (char x : line) {
 
             switch (x) {
                 case 'w':
-                    row.emplace_back(std::make_unique<Wall>());
+                    row.emplace_back(std::make_unique<Wall>(indexX*20,indexY*20));
                     break;
 
                 case 'p':
@@ -41,9 +41,11 @@ bool GameManager::setMap(int id) {
 
                 default:
                     row.emplace_back(nullptr);
-            }
-        }
 
+            }
+            indexX++;
+        }
+        indexY++;
         map.emplace_back(std::move(row));
     }
 
@@ -63,7 +65,7 @@ void GameManager::run() {
     std::unique_ptr<Controller> player = std::make_unique<PlayerController>(
             SDL_SCANCODE_W,SDL_SCANCODE_S,SDL_SCANCODE_A,SDL_SCANCODE_D
             );
-    player->setCharacter(std::make_unique<Pacman>());
+    player->setCharacter(std::make_unique<Pacman>(map));
     players.emplace_back(std::move(player));
 
     while(!screen.gameOver){
@@ -76,6 +78,13 @@ void GameManager::run() {
 
 void GameManager::render() {
     screen.clear();
+    for (int x = 0; x < map.size(); ++x) {
+        for (int y = 0; y < map[x].size(); ++y) {
+        if(map[x][y] != nullptr)
+            map[x][y]->render(screen);
+        }
+    }
+
 
     for (int i = 0; i<players.size(); i++) {
         players[i]->character->render(screen);

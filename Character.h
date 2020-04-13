@@ -17,8 +17,10 @@ protected:
         1,0
     };
     float speed = 1;
+    std::vector <std::vector<std::unique_ptr<Entity>>>& map;
+
 public:
-    Character();
+    Character(std::vector <std::vector<std::unique_ptr<Entity>>>& newMap);
     void setVelocity(int x,int y);
     virtual void updateVelocity();
     ~Character(){};

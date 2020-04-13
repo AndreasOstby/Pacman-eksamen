@@ -13,12 +13,14 @@
 class Pacman: public Character  {
 
     void calculateMove(int &pos, int &vel, double &distanceLeft);
+    void atIntersection();
 
 public:
-    explicit Pacman();
+    explicit Pacman(std::vector <std::vector<std::unique_ptr<Entity>>>& newMap);
     void move(long dt);
     void update(long dt) override;
     void updateVelocity() override;
+
 };
 
 

@@ -5,9 +5,10 @@
 #include <vector>
 #include "Pacman.h"
 #include "Screen.h"
+#include "Wall.h"
 
 
-Pacman::Pacman(): Character(){
+Pacman::Pacman(std::vector <std::vector<std::unique_ptr<Entity>>>& newMap): Character(newMap) {
 
     spriteSheet = "entities";
 
@@ -69,6 +70,7 @@ void Pacman::calculateMove(int &pos, int &vel, double &distanceLeft) {
 
     if(distanceLeft >= abs(diff) && diff != 0){
         pos+=diff;
+        atIntersection();
         updateVelocity();
         distanceLeft -= abs(diff);
 
@@ -99,6 +101,17 @@ void Pacman::updateVelocity() {
     if (velocity.y < 0) {
         state = "moveUp";
     }
+}
+
+void Pacman::atIntersection() {
+    if(map[floor(position.x/20)][floor(position.y/20)] != nullptr){
+        if(dynamic_cast<Wall*>(map[floor(position.x/20)][floor(position.y/20)].get())){
+            velocity.x = 0;
+            velocity.y = 0;
+        }
+    }
+
+
 }
 
 

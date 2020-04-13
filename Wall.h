@@ -13,7 +13,8 @@ public:
     virtual ~Wall(){
 
     }
-    Wall();
+    Wall(int x, int y);
+    void update(long dt) override;
 
 };
 
