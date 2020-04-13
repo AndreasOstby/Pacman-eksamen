@@ -22,9 +22,9 @@ bool GameManager::setMap(int id) {
 
     std::string line;
     while (std::getline(mapFile, line)) {
+        std::vector<std::unique_ptr<Entity>> row;
 
         for (char x : line) {
-            std::vector<std::unique_ptr<Entity>> row;
 
             switch (x) {
                 case 'w':
@@ -42,8 +42,9 @@ bool GameManager::setMap(int id) {
                 default:
                     row.emplace_back(nullptr);
             }
-          map.emplace_back(std::move(row));
         }
+
+        map.emplace_back(std::move(row));
     }
 
     mapFile.close();
