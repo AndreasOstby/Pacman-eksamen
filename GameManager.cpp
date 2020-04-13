@@ -20,29 +20,30 @@ bool GameManager::setMap(int id) {
         return false;
     }
 
-    char ch;
-    while (mapFile >> std::noskipws >> ch) {
-        std::vector<std::unique_ptr<Entity>> row;
+    std::string line;
+    while (std::getline(mapFile, line)) {
 
-        switch (ch) {
-            case 'w':
-                row.emplace_back(std::make_unique<Wall>());
-                break;
+        for (char x : line) {
+            std::vector<std::unique_ptr<Entity>> row;
 
-            case 'p':
-                row.emplace_back(std::make_unique<Pellet>());
-                break;
+            switch (x) {
+                case 'w':
+                    row.emplace_back(std::make_unique<Wall>());
+                    break;
 
-            case 'P':
-                row.emplace_back(std::make_unique<PowerPellet>());
-                break;
+                case 'p':
+                    row.emplace_back(std::make_unique<Pellet>());
+                    break;
 
-            default:
-                row.emplace_back(nullptr);
+                case 'P':
+                    row.emplace_back(std::make_unique<PowerPellet>());
+                    break;
+
+                default:
+                    row.emplace_back(nullptr);
+            }
+          map.emplace_back(std::move(row));
         }
-        std::cout << ch;
-        map.emplace_back(std::move(row));
-        break;
     }
 
     mapFile.close();
