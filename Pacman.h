@@ -13,7 +13,7 @@
 class Pacman: public Character  {
 
     void calculateMove(int &pos, int &vel, double &distanceLeft);
-    void atIntersection();
+    void atIntersection(double &distanceLeft);
 
 public:
     explicit Pacman(std::vector <std::vector<std::unique_ptr<Entity>>>& newMap);

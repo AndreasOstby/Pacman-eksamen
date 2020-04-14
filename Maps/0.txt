@@ -1,32 +1,34 @@
 wwwwwwwwwwwwwwwwwwwwwwwwwwwww
-w             w             w
-w             w             w
-w  www  wwww  w  wwww  www  w
-w  www  wwww  w  wwww  www  w
-w                           w
-w                           w
-w  www  w  wwwwwww  w  www  w
-w       w     w     w       w
-w       w     w     w       w
-wwwwww  wwww  w  wwww  wwwwww
-wwwwww  w
-wwwwww  w
-wwwwww  w
-
-wwwwww
-wwwwww
-wwwwww
-w
-w
-w  www
-w    w
-w    w
-w    w
-w
-w
-www
-w
-w
-w
-w
 wwwwwwwwwwwwwwwwwwwwwwwwwwwwww
+ww             w             w
+ww             w             w
+ww  www  wwww  w  wwww  www  w
+ww  www  wwww  w  wwww  www  w
+ww                           w
+ww                           w
+ww  www  w  wwwwwww  w  www  w
+ww       w     w     w       w
+ww       w     w     w       w
+wwwwwww  wwww  w  wwww  wwwwww
+wwwwwww  w
+wwwwwww  w
+wwwwwww  w
+
+wwwwwww
+wwwwwww
+wwwwwww
+ww
+ww
+ww www
+ww    w
+ww    w
+ww    w
+ww
+ww
+wwww
+ww
+ww
+ww
+ww
+wwwwwwwwwwwwwwwwwwwwwwwwwwwwwww
+wwwwwwwwwwwwwwwwwwwwwwwwwwwwwww

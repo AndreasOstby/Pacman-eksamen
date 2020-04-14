@@ -40,8 +40,8 @@ Pacman::Pacman(std::vector <std::vector<std::unique_ptr<Entity>>>& newMap): Char
     sprite = Sprite(dirChar, renderer, animations);
     sprite.setState(key);
 */
-    position.x = 0;
-    position.y = 0;
+    position.x = 40;
+    position.y = 40;
     position.w = 40;
     position.h = 40;
 
@@ -49,6 +49,10 @@ Pacman::Pacman(std::vector <std::vector<std::unique_ptr<Entity>>>& newMap): Char
 }
 
 void Pacman::move(long dt) {
+    if(velocity.x == 0 && velocity.y ==0){
+        updateVelocity();
+        return;
+    }
     double distanceLeft = dt*speed;
     //std::cout << "x: " << newvel << "  y:" << newVelocity.y << std::endl;
     while (distanceLeft > 0){
@@ -70,7 +74,7 @@ void Pacman::calculateMove(int &pos, int &vel, double &distanceLeft) {
 
     if(distanceLeft >= abs(diff) && diff != 0){
         pos+=diff;
-        atIntersection();
+        atIntersection(distanceLeft);
         updateVelocity();
         distanceLeft -= abs(diff);
 
@@ -103,11 +107,31 @@ void Pacman::updateVelocity() {
     }
 }
 
-void Pacman::atIntersection() {
-    if(map[floor(position.x/20)][floor(position.y/20)] != nullptr){
-        if(dynamic_cast<Wall*>(map[floor(position.x/20)][floor(position.y/20)].get())){
-            velocity.x = 0;
-            velocity.y = 0;
+void Pacman::atIntersection(double &distanceLeft) {
+
+    /* std::cout<<mapX<<"mapX"<<std::endl;
+    std::cout<<mapY<<"mapY"<<std::endl;
+    std::cout<<map.size()<<"SizeX"<<std::endl;
+    std::cout<<map[mapX].size()<<"SizeY"<<std::endl;
+    */
+    for (int x = 0; x < 2; ++x)
+    {
+        for (int y = 0; y < 2; ++y) {
+
+            int mapX = floor(position.x/20)+velocity.x*2+x;
+            int mapY = floor(position.y/20) + velocity.y*2+y;
+            if(mapX >= map.size() || mapY >= map[mapX].size() || mapX < 0 || mapY < 0){
+                continue;
+            }
+
+
+            if (map[mapX][mapY] != nullptr) {
+                if (dynamic_cast<Wall *>(map[mapX][mapY].get())) {
+                    newVelocity.x = 0;
+                    newVelocity.y = 0;
+                    distanceLeft = 0;
+                }
+            }
         }
     }
 
