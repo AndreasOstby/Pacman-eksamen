@@ -53,6 +53,7 @@ void Pacman::move(long dt, Screen &screen) {
         updateVelocity();
         return;
     }
+
     double distanceLeft = dt*speed;
     //std::cout << "x: " << newvel << "  y:" << newVelocity.y << std::endl;
     while (distanceLeft > 0){
@@ -74,18 +75,18 @@ void Pacman::calculateMove(int &pos, int &vel, double &distanceLeft, Screen &scr
 
     if(distanceLeft >= abs(diff) && diff != 0){
         pos+=diff;
-        atIntersection(distanceLeft, screen);
-        //updateVelocity();
         distanceLeft -= abs(diff);
-
-        //std::cout << "newVelocity: " << distanceLeft << std::endl;
+    } else if (diff == 0 && stopAtIntersection(distanceLeft, screen)) {
+        setVelocity(0, 0);
+        updateVelocity();
+        distanceLeft = 0;
     } else {
         pos += distanceLeft*vel;
         distanceLeft = 0;
     }
 }
 
-void Pacman::atIntersection(double &distanceLeft, Screen &screen) {
+bool Pacman::stopAtIntersection(double &distanceLeft, Screen &screen) {
 
     /* std::cout<<mapX<<"mapX"<<std::endl;
     std::cout<<mapY<<"mapY"<<std::endl;
@@ -96,13 +97,7 @@ void Pacman::atIntersection(double &distanceLeft, Screen &screen) {
     if (!checkWallCollision(newVelocity, screen)) {
         updateVelocity();
     }
-    if (checkWallCollision(velocity, screen)) {
-        newVelocity.x = 0;
-        newVelocity.y = 0;
-        distanceLeft = 0;
-        updateVelocity();
-    }
-
+    return checkWallCollision(velocity, screen);
 }
 
 bool Pacman::checkWallCollision(SDL_Point& vel, Screen &screen) {
