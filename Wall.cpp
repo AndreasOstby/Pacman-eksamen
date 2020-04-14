@@ -20,6 +20,6 @@ Wall::Wall(int x, int y) {
     position.h = 20;
 }
 
-void Wall::update(long dt) {
-    Entity::update(dt);
+void Wall::update(long dt, Screen &screen) {
+    Entity::update(dt, screen);
 }

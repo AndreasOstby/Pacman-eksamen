@@ -28,7 +28,7 @@ bool GameManager::setMap(int id) {
 
             switch (x) {
                 case 'w':
-                    row.emplace_back(std::make_unique<Wall>(indexX*20,indexY*20));
+                    row.emplace_back(std::make_unique<Wall>(indexY*scl,indexX*scl));
                     break;
 
                 case 'p':
@@ -56,7 +56,7 @@ bool GameManager::setMap(int id) {
 void GameManager::update() {
     for (int i = 0; i<players.size(); i++){
         players[i]->move(screen.keys);
-        players[i]->character->update(1);
+        players[i]->character->update(1, screen);
     }
 }
 
@@ -65,7 +65,7 @@ void GameManager::run() {
     std::unique_ptr<Controller> player = std::make_unique<PlayerController>(
             SDL_SCANCODE_W,SDL_SCANCODE_S,SDL_SCANCODE_A,SDL_SCANCODE_D
             );
-    player->setCharacter(std::make_unique<Pacman>(map));
+    player->setCharacter(std::make_unique<Pacman>(map, scl));
     players.emplace_back(std::move(player));
 
     while(!screen.gameOver){
@@ -77,7 +77,7 @@ void GameManager::run() {
 }
 
 void GameManager::render() {
-    screen.clear();
+
     for (int x = 0; x < map.size(); ++x) {
         for (int y = 0; y < map[x].size(); ++y) {
         if(map[x][y] != nullptr)
@@ -102,7 +102,7 @@ void GameManager::render() {
         }
     }
     screen.render();
-
+    screen.clear();
 }
 
 std::chrono::milliseconds GameManager::getTime() {

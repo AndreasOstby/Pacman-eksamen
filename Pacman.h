@@ -12,13 +12,15 @@
 
 class Pacman: public Character  {
 
-    void calculateMove(int &pos, int &vel, double &distanceLeft);
-    void atIntersection(double &distanceLeft);
+    void calculateMove(int &pos, int &vel, double &distanceLeft, Screen &screen);
+    void atIntersection(double &distanceLeft, Screen &screen);
+    bool checkWallCollision(SDL_Point&, Screen &screen);
+    int &scl;
 
 public:
-    explicit Pacman(std::vector <std::vector<std::unique_ptr<Entity>>>& newMap);
-    void move(long dt);
-    void update(long dt) override;
+    explicit Pacman(std::vector <std::vector<std::unique_ptr<Entity>>>& newMap, int &sscl);
+    void move(long dt, Screen &screen);
+    void update(long dt, Screen &screen) override;
     void updateVelocity() override;
 
 };

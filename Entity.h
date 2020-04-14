@@ -26,7 +26,7 @@ public:
     Entity();
     bool isColliding(Character character);
     virtual void action(Character character);
-    virtual void update(long dt);
+    virtual void update(long dt, Screen &screen);
     Sprite sprite;
     void render(Screen &screen);
     virtual ~Entity(){}

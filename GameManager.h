@@ -21,10 +21,12 @@
 
 class GameManager {
     std::chrono::milliseconds timeExpired;
+    int scl = 20;
 
 public:
     std::vector <std::vector<std::unique_ptr<Entity>>> map;
     std::vector <std::unique_ptr<Controller>> players;
+
     void setup();
     bool setMap(int id);
     void run();
