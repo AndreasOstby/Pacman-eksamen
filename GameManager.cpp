@@ -22,11 +22,11 @@ bool GameManager::setMap(int id) {
 
     std::vector <std::vector<std::unique_ptr<Entity>>> tileset;
 
-    int indexY = 0;
+    int indexX = 0;
     std::string line;
     while (std::getline(mapFile, line)) {
         std::vector<std::unique_ptr<Entity>> row;
-        int indexX = 0;
+        int indexY = 0;
         for (char x : line) {
 
             switch (x) {
@@ -58,19 +58,22 @@ bool GameManager::setMap(int id) {
                     row.emplace_back(nullptr);
 
             }
-            indexX++;
+            indexY++;
         }
-        indexY++;
-        tileset.emplace_back(std::move(row));
+        indexX++;
+        map.tileset.emplace_back(std::move(row));
+
     }
 
     //flips the tileset so it is in the right direction
 
-    for (int x = 0; x < map.tileset.size(); ++x) {
+   /* for (int x = 0; x < map.tileset.size(); ++x) {
+        std::vector<std::unique_ptr<Entity>> col;
         for (int y = 0; y < map.tileset[x].size(); ++y) {
-            map.tileset[y][x] = std::move(tileset[x][y]);
+            col.emplace_back(std::move(tileset[x][y]));
         }
-    }
+        map.tileset.emplace_back(std::move(col));
+    }*/
 
     mapFile.close();
     return true;
@@ -79,7 +82,7 @@ bool GameManager::setMap(int id) {
 void GameManager::update() {
     for (int i = 0; i<players.size(); i++){
         players[i]->move(screen.keys);
-        players[i]->character->update(1, screen);
+        players[i]->character->update(frameDuration, screen);
     }
 }
 
@@ -94,7 +97,9 @@ void GameManager::run() {
     while(!screen.gameOver){
         screen.handleEvents();
         update();
+        getTime();
         render();
+
     }
 
 }
@@ -128,9 +133,14 @@ void GameManager::render() {
     screen.clear();
 }
 
-std::chrono::milliseconds GameManager::getTime() {
-    return std::chrono::duration_cast<std::chrono::milliseconds >(
-            std::chrono::system_clock::now().time_since_epoch()
-    );
+void  GameManager::getTime() {
+    using namespace std::chrono_literals;
+    auto lastFrame = timeExpired;
+    timeExpired = std::chrono::high_resolution_clock::now();
+    auto timeSpan = std::chrono::duration_cast<std::chrono::milliseconds> (timeExpired - lastFrame);
+    std::this_thread::sleep_for(33ms-timeSpan);
+    frameDuration = timeSpan.count();
+    std::cout << std::chrono::duration_cast<std::chrono::milliseconds> (33ms - timeSpan).count() << std::endl;
+
 }
 

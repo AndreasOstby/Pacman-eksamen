@@ -21,7 +21,7 @@ class Pacman: public Character  {
     bool checkWallCollision(SDL_Point&, Screen &screen);
 
 public:
-    explicit Pacman(Map& newMap);
+    Pacman(Map& newMap);
     void move(long dt, Screen &screen);
     void update(long dt, Screen &screen) override;
     void updateVelocity() override;

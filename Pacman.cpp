@@ -51,7 +51,7 @@ void Pacman::move(long dt, Screen &screen) {
         return;
     }
 
-    double distanceLeft = dt*speed;
+    double distanceLeft = (dt/30)*speed;
     //std::cout << "x: " << newvel << "  y:" << newVelocity.y << std::endl;
     while (distanceLeft > 0){
         if (velocity.x != 0) {

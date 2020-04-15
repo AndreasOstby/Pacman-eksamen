@@ -8,6 +8,7 @@
 #include <iostream>
 #include <chrono>
 #include <fstream>
+#include <thread>
 
 #include "Map.h"
 #include "Entity.h"
@@ -22,7 +23,10 @@
 
 
 class GameManager {
-    std::chrono::milliseconds timeExpired;
+    std::chrono::time_point<std::chrono::steady_clock> timeExpired =
+            std::chrono::high_resolution_clock::now();
+
+    int frameDuration = 0;
 
 public:
     Map map;
@@ -35,7 +39,8 @@ public:
     Screen screen;
     void render();
     void getTimeDifference();
-    std::chrono::milliseconds getTime();
+    void getTime();
+
 
 
 };

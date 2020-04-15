@@ -8,8 +8,6 @@
 #include "Sprite.h"
 #include "Screen.h"
 
-
-class Character;
 class Entity {
 
 protected:
@@ -24,8 +22,8 @@ protected:
 
 public:
     Entity();
-    bool isColliding(Character character);
-    virtual void action(Character character);
+    bool isColliding(Entity &entity);
+    virtual void action(Entity &entity);
     virtual void update(long dt, Screen &screen);
     Sprite sprite;
     void render(Screen &screen);

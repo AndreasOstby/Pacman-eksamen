@@ -7,3 +7,7 @@
 Map::Map(int newScl): scl(newScl) {
 
 }
+
+Map::Map() {
+
+}

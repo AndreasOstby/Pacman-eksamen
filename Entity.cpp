@@ -3,9 +3,9 @@
 //
 
 #include "Entity.h"
-#include "Character.h"
 
-bool Entity::isColliding(Character character) {
+
+bool Entity::isColliding(Entity &entity) {
     return false;
 }
 
@@ -14,7 +14,7 @@ void Entity::render(Screen& screen) {
 
 }
 
-void Entity::action(Character character) {
+void Entity::action(Entity &entity) {
 
 }
 

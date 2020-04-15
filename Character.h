@@ -8,6 +8,7 @@
 #include "Entity.h"
 
 
+class Map;
 class Character: public Entity {
 
 protected:
@@ -17,11 +18,11 @@ protected:
     SDL_Point newVelocity {
         1,0
     };
-    float speed = 1;
+    float speed = 4;
     Map& map;
 
 public:
-    explicit Character(Map& newMap);
+    Character(Map& newMap);
     void setVelocity(int x,int y);
     virtual void updateVelocity();
     virtual ~Character(){};
