@@ -7,5 +7,4 @@
 void Controller::setCharacter(std::unique_ptr<Character> c) {
     character = std::move(c);
 
-
 }

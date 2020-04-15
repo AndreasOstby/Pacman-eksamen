@@ -7,18 +7,21 @@
 
 
 #include <iostream>
+#include <vector>
 #include <map>
 #include "Character.h"
+#include "Map.h"
+#include "Screen.h"
+#include "Wall.h"
 
 class Pacman: public Character  {
 
     void calculateMove(int &pos, int &vel, double &distanceLeft, Screen &screen);
     bool stopAtIntersection(double &distanceLeft, Screen &screen);
     bool checkWallCollision(SDL_Point&, Screen &screen);
-    int &scl;
 
 public:
-    explicit Pacman(std::vector <std::vector<std::unique_ptr<Entity>>>& newMap, int &sscl);
+    explicit Pacman(Map& newMap);
     void move(long dt, Screen &screen);
     void update(long dt, Screen &screen) override;
     void updateVelocity() override;

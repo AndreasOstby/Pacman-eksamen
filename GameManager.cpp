@@ -19,6 +19,9 @@ bool GameManager::setMap(int id) {
     {
         return false;
     }
+
+    std::vector <std::vector<std::unique_ptr<Entity>>> tileset;
+
     int indexY = 0;
     std::string line;
     while (std::getline(mapFile, line)) {
@@ -28,7 +31,7 @@ bool GameManager::setMap(int id) {
 
             switch (x) {
                 case 'w':
-                    row.emplace_back(std::make_unique<Wall>(indexY*scl,indexX*scl));
+                    row.emplace_back(std::make_unique<Wall>(indexX*map.scl,indexY*map.scl));
                     break;
 
                 case 'p':
@@ -39,6 +42,18 @@ bool GameManager::setMap(int id) {
                     row.emplace_back(std::make_unique<PowerPellet>());
                     break;
 
+                case 'o': //We want it to leak to the default
+                    map.spawnPoint.x = indexX*map.scl;
+                    map.spawnPoint.y = indexY*map.scl;
+                    row.emplace_back(nullptr);
+                    break;
+
+                case 'c': //We want it to leak to the default
+                    map.cage.x = indexX*map.scl;
+                    map.cage.y = indexY*map.scl;
+                    row.emplace_back(nullptr);
+                    break;
+
                 default:
                     row.emplace_back(nullptr);
 
@@ -46,7 +61,15 @@ bool GameManager::setMap(int id) {
             indexX++;
         }
         indexY++;
-        map.emplace_back(std::move(row));
+        tileset.emplace_back(std::move(row));
+    }
+
+    //flips the tileset so it is in the right direction
+
+    for (int x = 0; x < map.tileset.size(); ++x) {
+        for (int y = 0; y < map.tileset[x].size(); ++y) {
+            map.tileset[y][x] = std::move(tileset[x][y]);
+        }
     }
 
     mapFile.close();
@@ -65,7 +88,7 @@ void GameManager::run() {
     std::unique_ptr<Controller> player = std::make_unique<PlayerController>(
             SDL_SCANCODE_W,SDL_SCANCODE_S,SDL_SCANCODE_A,SDL_SCANCODE_D
             );
-    player->setCharacter(std::make_unique<Pacman>(map, scl));
+    player->setCharacter(std::make_unique<Pacman>(map));
     players.emplace_back(std::move(player));
 
     while(!screen.gameOver){
@@ -78,10 +101,10 @@ void GameManager::run() {
 
 void GameManager::render() {
 
-    for (int x = 0; x < map.size(); ++x) {
-        for (int y = 0; y < map[x].size(); ++y) {
-        if(map[x][y] != nullptr)
-            map[x][y]->render(screen);
+    for (int x = 0; x < map.tileset.size(); ++x) {
+        for (int y = 0; y < map.tileset[x].size(); ++y) {
+        if(map.tileset[x][y] != nullptr)
+            map.tileset[x][y]->render(screen);
         }
     }
 

@@ -4,6 +4,7 @@
 
 #ifndef PACMAN_EKSAMEN_CHARACTER_H
 #define PACMAN_EKSAMEN_CHARACTER_H
+#include "Map.h"
 #include "Entity.h"
 
 
@@ -17,13 +18,13 @@ protected:
         1,0
     };
     float speed = 1;
-    std::vector <std::vector<std::unique_ptr<Entity>>>& map;
+    Map& map;
 
 public:
-    Character(std::vector <std::vector<std::unique_ptr<Entity>>>& newMap);
+    explicit Character(Map& newMap);
     void setVelocity(int x,int y);
     virtual void updateVelocity();
-    ~Character(){};
+    virtual ~Character(){};
 
 };
 

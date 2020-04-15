@@ -4,7 +4,7 @@
 
 #include "Character.h"
 
-Character::Character(std::vector <std::vector<std::unique_ptr<Entity>>>& newMap): map(newMap) {
+Character::Character(Map& newMap): map(newMap) {
 
 }
 

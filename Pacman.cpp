@@ -2,13 +2,10 @@
 // Created by Baste Angelfoss on 02/04/2020.
 //
 
-#include <vector>
 #include "Pacman.h"
-#include "Screen.h"
-#include "Wall.h"
 
 
-Pacman::Pacman(std::vector <std::vector<std::unique_ptr<Entity>>>& newMap, int &sscl): Character(newMap), scl(sscl) {
+Pacman::Pacman(Map& newMap): Character(newMap) {
 
     spriteSheet = "entities";
 
@@ -40,10 +37,10 @@ Pacman::Pacman(std::vector <std::vector<std::unique_ptr<Entity>>>& newMap, int &
     sprite = Sprite(dirChar, renderer, animations);
     sprite.setState(key);
 */
-    position.x = scl*2;
-    position.y = scl*2;
-    position.w = scl*2;
-    position.h = scl*2;
+    position.x = map.scl*2;
+    position.y = map.scl*2;
+    position.w = map.scl*2;
+    position.h = map.scl*2;
 
 
 }
@@ -66,7 +63,7 @@ void Pacman::move(long dt, Screen &screen) {
 }
 
 void Pacman::calculateMove(int &pos, int &vel, double &distanceLeft, Screen &screen) {
-    double diff = (vel*(scl)-(pos%(scl)))%(scl);
+    double diff = (vel*(map.scl)-(pos%(map.scl)))%(map.scl);
 
     /*std::cout << "pos: " << pos << std::endl;
     std::cout << "velocity: " << vel << std::endl;
@@ -101,29 +98,29 @@ bool Pacman::stopAtIntersection(double &distanceLeft, Screen &screen) {
 }
 
 bool Pacman::checkWallCollision(SDL_Point& vel, Screen &screen) {
-    for (int x = 0; x < 1 + abs(vel.y); ++x) {
-        for (int y = 0; y < 1 + abs(vel.x); ++y) {
+    for (int x = 0; x < 2 - abs(vel.x); ++x) {
+        for (int y = 0; y < 2 - abs(vel.y); ++y) {
 
-            int mapX = floor(position.x/scl) + vel.x*2+x + std::max(vel.x*-1, 0);
-            int mapY = floor(position.y/scl) + vel.y*2+y + std::max(vel.y*-1, 0);
+            int mapX = floor(position.x/map.scl) + vel.x*2+x + std::max(vel.x*-1, 0);
+            int mapY = floor(position.y/map.scl) + vel.y*2+y + std::max(vel.y*-1, 0);
 
 
             SDL_Rect rect;
-            rect.x = mapX*scl;
-            rect.y = mapY*scl;
-            rect.w = scl;
-            rect.h = scl;
+            rect.x = mapX*map.scl;
+            rect.y = mapY*map.scl;
+            rect.w = map.scl;
+            rect.h = map.scl;
 
             SDL_SetRenderDrawColor(screen.renderer, 255, 50, 50, 255);
             SDL_RenderFillRect(screen.renderer, &rect);
 
-            if(mapX >= map.size() || mapY >= map[mapX].size() || mapX < 0 || mapY < 0){
+            if(mapX >= map.tileset.size() || mapY >= map.tileset[mapX].size() || mapX < 0 || mapY < 0){
                 continue;
             }
 
 
-            if (map[mapX][mapY] != nullptr) {
-                if (dynamic_cast<Wall *>(map[mapX][mapY].get())) {
+            if (map.tileset[mapX][mapY] != nullptr) {
+                if (dynamic_cast<Wall *>(map.tileset[mapX][mapY].get())) {
                     return true;
                 }
             }

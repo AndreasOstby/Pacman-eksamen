@@ -9,6 +9,7 @@
 #include <chrono>
 #include <fstream>
 
+#include "Map.h"
 #include "Entity.h"
 #include "Controller.h"
 #include "Screen.h"
@@ -19,12 +20,12 @@
 #include "Pellet.h"
 #include "PowerPellet.h"
 
+
 class GameManager {
     std::chrono::milliseconds timeExpired;
-    int scl = 20;
 
 public:
-    std::vector <std::vector<std::unique_ptr<Entity>>> map;
+    Map map;
     std::vector <std::unique_ptr<Controller>> players;
 
     void setup();
