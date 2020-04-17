@@ -107,9 +107,10 @@ void GameManager::run() {
 
 
     std::unique_ptr<Controller> npc = std::make_unique<NpcController>();
-    npc->setCharacter(std::make_shared<Blinky>(map));
+    auto blinky = std::make_shared<Blinky>(map);
+    npc->setCharacter(blinky);
     players.emplace_back(std::move(npc));
-
+    map.ghost.push_back(blinky);
 
     currentFrame = std::chrono::high_resolution_clock::now();
     while(!screen.gameOver){
@@ -166,9 +167,9 @@ void  GameManager::getTime() {
         std::this_thread::sleep_for(toSleepFor);
         frameDuration = 1;
     } else {
-        frameDuration = (timeSpan.count()/1000)/millisPerFrame;
+        frameDuration = (timeSpan.count()/1000.0)/millisPerFrame;
     }
-    std::cout << "FPS: " << toSleepFor.count()/1000 << ", deltaTime " << frameDuration << std::endl;
+    // std::cout << "FPS: " << toSleepFor.count()/1000 << ", deltaTime " << frameDuration << std::endl;
     currentFrame = high_resolution_clock::now();
     //std::this_thread::sleep_for(std::chrono::milliseconds(100));
 

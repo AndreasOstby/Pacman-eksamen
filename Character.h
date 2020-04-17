@@ -7,6 +7,7 @@
 #include "Map.h"
 #include "Entity.h"
 #include <cmath>
+#include <random>
 
 class Map;
 class Character: public Entity {
@@ -20,11 +21,11 @@ protected:
     };
     float speed = 3;
     Map& map;
-
+    std::string aiState = "Chasing";
     void pathfind(Rect& pos);
     void calculateMove(double &pos, int &vel, double &distanceLeft, Screen &screen);
     bool stopAtIntersection(double &distanceLeft, Screen &screen);
-    bool checkWallCollision(SDL_Point&);
+    bool checkWallCollision(SDL_Point& vel);
     void checkPelletCollision();
 
 
@@ -40,7 +41,7 @@ public:
     virtual void updateVelocity();
     virtual void toCheckEveryStep()=0;
     virtual void ai()=0;
-    void setAiState();
+    void setAiState(std::string newState);
     virtual ~Character(){};
 
 };

@@ -181,12 +181,12 @@ void Character::pathfind(Rect& pos) {
 
 void Character::frightenGhost() {
     for (int i = 0; i < map.ghost.size() ; ++i) {
-        map.ghost[i]->setAiState();
+        map.ghost[i]->setAiState("Frightened");
     }
 }
 
-void Character::setAiState() {
-
+void Character::setAiState(std::string newState) {
+    aiState = newState;
 }
 
 

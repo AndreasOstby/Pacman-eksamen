@@ -16,7 +16,41 @@ void Blinky::ai() {
             pDistance = currentDistance;
         }
     }
-    pathfind(closest->getPosition());
+    if (aiState == "Chasing") {
+        pathfind(closest->getPosition());
+    } else if (aiState == "Frightened" ) {
+        std::random_device rd;
+        std::mt19937 mt(rd());
+        std::uniform_int_distribution<int>dist (0,3);
+        int random = dist(mt);
+        SDL_Point vel{
+            0,1
+        };
+        if(random == 0 && velocity.y !=-1 && !checkWallCollision(vel) ){
+            newVelocity = vel;
+        }
+        vel.x = 1;
+        vel.y = 0;
+        if(random == 1 && velocity.x !=-1 && !checkWallCollision(vel)){
+            newVelocity = vel;
+        }
+        vel.x = 0;
+        vel.y = -1;
+        if(random == 2 && velocity.y !=1 && !checkWallCollision(vel)){
+            newVelocity = vel;
+        }
+        vel.x = -1;
+        vel.y = 0;
+        if(random == 3 && velocity.x !=1 && !checkWallCollision(vel)){
+            newVelocity = vel;
+        }
+
+
+
+        std::cout<<random<<std::endl;
+    }else if (aiState == "Eaten"){
+        pathfind(map.cage-> getPosition());
+    }
 }
 
 Blinky::Blinky(Map &newMap) : Ghost(newMap) {

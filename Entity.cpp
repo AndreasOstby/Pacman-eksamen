@@ -29,8 +29,8 @@ void Entity::onCollision(Character &character) {
 
 bool Entity::isCollision(Entity &entity) {
 
-    std::cout << "1. x: " << position.x + offset.x << " y: " << position.y + offset.y << " w: " << position.w + offset.w << " h: " << position.h + offset.h << std::endl;
-    std::cout << "2. x: " << entity.position.x + entity.offset.x << " y: " << entity.position.y + entity.offset.y << " w: " << entity.position.w + entity.offset.w << " h: " << entity.position.h + entity.offset.h << std::endl;
+    //std::cout << "1. x: " << position.x + offset.x << " y: " << position.y + offset.y << " w: " << position.w + offset.w << " h: " << position.h + offset.h << std::endl;
+    // std::cout << "2. x: " << entity.position.x + entity.offset.x << " y: " << entity.position.y + entity.offset.y << " w: " << entity.position.w + entity.offset.w << " h: " << entity.position.h + entity.offset.h << std::endl;
 
 
     return  position.x + offset.x <= entity.position.x + entity.offset.x + entity.position.w + entity.offset.w&&
@@ -46,6 +46,11 @@ Rect &Entity::getPosition() {
 
 void Entity::setPosition(double x, double y, int w, int h){
     position = Rect{x,y,w,h};
+}
+
+void Entity::kill() {
+    isDead = true;
+
 }
 
 

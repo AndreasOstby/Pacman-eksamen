@@ -35,11 +35,13 @@ public:
     virtual void onCollision(Character &character);
     virtual void action(Entity &entity);
     virtual void update(double dt, Screen &screen);
+    virtual void kill();
     Sprite sprite;
     void render(Screen &screen);
     virtual ~Entity(){}
     Rect& getPosition();
     void setPosition(double x, double y, int w, int h);
+
 
 };
 #include "Character.h"
