@@ -24,3 +24,8 @@ void PlayerController::move(const Uint8 *keys) {
     }
 }
 
+void PlayerController::setCharacter(std::shared_ptr<Character> c) {
+    Controller::setCharacter(c);
+    c->isAi = false;
+}
+

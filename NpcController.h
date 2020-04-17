@@ -11,6 +11,8 @@ class NpcController: public Controller {
 
 public:
     NpcController();
+    void setCharacter(std::shared_ptr<Character> c) override;
+
 
 
     void move(const Uint8 *keys);

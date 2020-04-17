@@ -38,6 +38,7 @@ public:
     Sprite sprite;
     void render(Screen &screen);
     virtual ~Entity(){}
+    Rect& getPosition();
 };
 #include "Character.h"
 

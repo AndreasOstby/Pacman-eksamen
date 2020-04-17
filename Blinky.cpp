@@ -4,8 +4,19 @@
 
 #include "Blinky.h"
 
-void Blinky::ai() {
 
+
+void Blinky::ai() {
+    std::shared_ptr<Character> closest;
+    double pDistance = 1000;
+    for (int i = 0; i < map.pacman.size(); ++i) {
+        double currentDistance = map.pacman[i]->getDistance(position, velocity);
+        if(currentDistance < pDistance){
+            closest = map.pacman[i];
+            pDistance = currentDistance;
+        }
+    }
+    pathfind(closest->getPosition());
 }
 
 Blinky::Blinky(Map &newMap) : Ghost(newMap) {

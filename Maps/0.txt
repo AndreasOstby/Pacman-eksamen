@@ -3,7 +3,7 @@ w............ w............ w
 w.            w             w
 w. www  wwww  w  wwww  www  w
 w. www  wwww  w  wwww  www  w
-w.            o             w
+w*            o             w
 w.                          w
 w. www  w  wwwwwww  w  www  w
 w.      w     w     w       w

@@ -40,6 +40,10 @@ bool Entity::isCollision(Entity &entity) {
 
 }
 
+Rect &Entity::getPosition() {
+    return position;
+}
+
 
 
 

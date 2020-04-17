@@ -21,22 +21,26 @@ protected:
     float speed = 3;
     Map& map;
 
+    void pathfind(Rect& pos);
     void calculateMove(double &pos, int &vel, double &distanceLeft, Screen &screen);
     bool stopAtIntersection(double &distanceLeft, Screen &screen);
-    bool checkWallCollision(SDL_Point&, Screen &screen);
+    bool checkWallCollision(SDL_Point&);
     void checkPelletCollision();
+
 
 public:
     int points = 0;
+    bool isAi = false;
 
     Character(Map& newMap);
-
+    void frightenGhost();
+    double getDistance(Rect& rect, SDL_Point& offsetVel);
     void move(double dt, Screen &screen);
     void setVelocity(int x,int y);
     virtual void updateVelocity();
     virtual void toCheckEveryStep()=0;
     virtual void ai()=0;
-
+    void setAiState();
     virtual ~Character(){};
 
 };

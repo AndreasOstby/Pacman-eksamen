@@ -23,3 +23,9 @@ PowerPellet::PowerPellet(int x, int y, double scl) : Pellet(x, y, scl) {
 void PowerPellet::update(double dt, Screen &screen) {
     Pellet::update(dt, screen);
 }
+
+void PowerPellet::onCollision(Character &character) {
+    character.points += 500;
+    character.frightenGhost();
+    isDead = true;
+}

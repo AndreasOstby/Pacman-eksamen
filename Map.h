@@ -13,7 +13,7 @@ class Character;
 struct Map {
     std::vector <std::vector<std::unique_ptr<Entity>>> tileset;
     std::vector <std::shared_ptr<Character>> pacman;
-    // std::vector <Ghost> ghost;
+    std::vector <std::shared_ptr<Character>> ghost;
     SDL_Point spawnPoint{0, 0};
     SDL_Rect cage{0, 0, 0, 0};
     double scl = 20;

@@ -20,6 +20,8 @@ private:
 public:
     PlayerController(int keyUp, int keyDown, int keyLeft, int keyRight);
     void move(const Uint8 *keys);
+    void setCharacter(std::shared_ptr<Character> c) override;
+
 
 
 

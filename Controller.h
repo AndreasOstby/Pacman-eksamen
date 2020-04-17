@@ -10,7 +10,7 @@
 class Controller {
 
 public:
-    void setCharacter(std::shared_ptr<Character> c);
+    virtual void setCharacter(std::shared_ptr<Character> c);
 
     virtual void move(const Uint8 *keys) = 0;
     std::shared_ptr<Character> character;
