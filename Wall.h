@@ -10,7 +10,7 @@
 class Wall: public Entity {
 
 public:
-    virtual ~Wall(){
+    ~Wall(){
 
     }
     Wall(int x, int y);

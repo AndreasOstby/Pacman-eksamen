@@ -44,6 +44,10 @@ Rect &Entity::getPosition() {
     return position;
 }
 
+void Entity::setPosition(double x, double y, int w, int h){
+    position = Rect{x,y,w,h};
+}
+
 
 
 

@@ -8,14 +8,16 @@
 
 #include <vector>
 #include "Entity.h"
+#include "Cage.h"
 #include "Character.h"
 class Character;
+class Cage;
 struct Map {
-    std::vector <std::vector<std::unique_ptr<Entity>>> tileset;
+    std::vector <std::vector<std::shared_ptr<Entity>>> tileset;
     std::vector <std::shared_ptr<Character>> pacman;
     std::vector <std::shared_ptr<Character>> ghost;
     SDL_Point spawnPoint{0, 0};
-    SDL_Rect cage{0, 0, 0, 0};
+    std::shared_ptr<Cage> cage;
     double scl = 20;
     Map(int newScl);
     Map();

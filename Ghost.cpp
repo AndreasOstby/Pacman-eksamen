@@ -7,8 +7,8 @@
 Ghost::Ghost(Map &newMap): Character(newMap) {
     spriteSheet = "entities";
 
-    position.x = map.cage.x;
-    position.y = map.cage.y;
+    position.x = map.cage->getPosition().x;
+    position.y = map.cage->getPosition().y;
     position.w = map.scl*2;
     position.h = map.scl*2;
 }

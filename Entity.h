@@ -39,6 +39,8 @@ public:
     void render(Screen &screen);
     virtual ~Entity(){}
     Rect& getPosition();
+    void setPosition(double x, double y, int w, int h);
+
 };
 #include "Character.h"
 

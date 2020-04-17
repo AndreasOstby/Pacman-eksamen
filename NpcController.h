@@ -15,7 +15,7 @@ public:
 
 
 
-    void move(const Uint8 *keys);
+    void move(const Uint8 *keys) override;
 };
 
 

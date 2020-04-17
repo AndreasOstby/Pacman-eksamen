@@ -11,8 +11,8 @@
 struct Rect {
     double x = 0;
     double y = 0;
-    double w = 0;
-    double h = 0;
+    int w = 0;
+    int h = 0;
     SDL_Rect getSDLRect();
 };
 

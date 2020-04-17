@@ -4,6 +4,7 @@
 #include "GameManager.h"
 #include "NpcController.h"
 #include "Blinky.h"
+#include "Cage.h"
 
 
 void GameManager::setup() {
@@ -21,27 +22,25 @@ bool GameManager::setMap(int id) {
         return false;
     }
 
-    std::vector <std::vector<std::unique_ptr<Entity>>> tileset;
-
     int indexY = 0;
     std::string line;
     while (std::getline(mapFile, line)) {
-        std::vector<std::unique_ptr<Entity>> row;
+        std::vector<std::shared_ptr<Entity>> row;
         int indexX = 0;
         for (char x : line) {
 
             switch (x) {
                 case 'w':
-                    row.emplace_back(std::make_unique<Wall>(indexX*map.scl,indexY*map.scl));
+                    row.push_back(std::make_shared<Wall>(indexX*map.scl,indexY*map.scl));
                     break;
 
                 case '.':
-                    row.emplace_back(std::make_unique<Pellet>(indexX*map.scl,indexY*map.scl, map.scl));
+                    row.emplace_back(std::make_shared<Pellet>(indexX*map.scl,indexY*map.scl, map.scl));
                     //std::cout << "FPS: " << 123 << ", deltaTime " << 123 << std::endl;
                     break;
 
                 case '*':
-                    row.emplace_back(std::make_unique<PowerPellet>(indexX*map.scl,indexY*map.scl, map.scl));
+                    row.emplace_back(std::make_shared<PowerPellet>(indexX*map.scl,indexY*map.scl, map.scl));
                     break;
 
                 case 'o':
@@ -51,9 +50,10 @@ bool GameManager::setMap(int id) {
                     break;
 
                 case 'c':
-                    map.cage.x = indexX*map.scl;
-                    map.cage.y = indexY*map.scl;
-                    row.emplace_back(nullptr);
+
+                    map.cage = std::make_shared<Cage>(indexX*map.scl-(map.scl*5/2), indexY*map.scl, map.scl*5, map.scl*4);
+
+                    row.push_back(map.cage);
                     break;
 
                 default:
@@ -63,6 +63,13 @@ bool GameManager::setMap(int id) {
             indexX++;
         }
         indexY++;
+
+        /*for (int x = 0; x < map.cage.getPosition().w/map.scl; ++x) {
+            for (int y = 0; y < map.cage.getPosition().h/map.scl; ++y) {
+                map.tileset[y][x] = std::make_shared<Cage>(map.cage);
+            }
+        }*/
+
         map.tileset.emplace_back(std::move(row));
 
     }
