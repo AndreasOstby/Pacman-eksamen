@@ -24,7 +24,7 @@ bool Screen::init(const char *title, int width, int height) {
     if (renderer == nullptr) {
         return false;
     }
-    SDL_SetRenderDrawColor(renderer, 50, 255, 255, 255);
+    SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
     keys = SDL_GetKeyboardState(&numKeys);
 
     return true;
@@ -60,7 +60,7 @@ void Screen::draw(std::string& spriteSheet, SDL_Rect *coord, SDL_Rect *crop) {
 }
 
 void Screen::clear() {
-    SDL_SetRenderDrawColor(renderer, 50, 255, 255, 255);
+    SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
     SDL_RenderClear(renderer);
 }
 

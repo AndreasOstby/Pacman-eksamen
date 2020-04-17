@@ -9,7 +9,9 @@
 #include "Pellet.h"
 
 class PowerPellet: public Pellet {
-
+public:
+    PowerPellet(int x, int y, double scl);
+    void update(double dt, Screen &screen) override;
 };
 
 

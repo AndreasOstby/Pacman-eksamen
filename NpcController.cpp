@@ -4,6 +4,11 @@
 
 #include "NpcController.h"
 
-void NpcController::move() {
+
+NpcController::NpcController() {
+
+}
+
+void NpcController::move(const Uint8 *keys) {
 
 }

@@ -11,7 +11,7 @@ include_directories(
         ${SDL2_INCLUDE_DIR}
         ${SDL2_IMAGE_INCLUDE_DIR}
         ${SDL2_TTF_INCLUDE_DIR})
-add_executable(Pacman-eksamen main.cpp Screen.cpp Screen.h GameManager.cpp GameManager.h Entity.cpp Entity.h Controller.cpp Controller.h Character.cpp Character.h PlayerController.cpp PlayerController.h NpcController.cpp NpcController.h Sprite.cpp Sprite.h Pacman.cpp Pacman.h Wall.cpp Wall.h Pellet.cpp Pellet.h PowerPellet.cpp PowerPellet.h Map.cpp Map.h Ghost.cpp Ghost.h)
+add_executable(Pacman-eksamen main.cpp Screen.cpp Screen.h GameManager.cpp GameManager.h Entity.cpp Entity.h Controller.cpp Controller.h Character.cpp Character.h PlayerController.cpp PlayerController.h NpcController.cpp NpcController.h Sprite.cpp Sprite.h Pacman.cpp Pacman.h Wall.cpp Wall.h Pellet.cpp Pellet.h PowerPellet.cpp PowerPellet.h Map.cpp Map.h Ghost.cpp Ghost.h Rect.cpp Rect.h Inky.cpp Inky.h Blinky.cpp Blinky.h Pinky.cpp Pinky.h Clyde.cpp Clyde.h)
 target_link_libraries(Pacman-eksamen
         ${SDL2_LIBRARY}
         ${SDL2_IMAGE_LIBRARIES}

@@ -2,7 +2,8 @@
 // Created by Baste Angelfoss on 30/03/2020.
 //
 #include "GameManager.h"
-
+#include "NpcController.h"
+#include "Blinky.h"
 
 
 void GameManager::setup() {
@@ -22,11 +23,11 @@ bool GameManager::setMap(int id) {
 
     std::vector <std::vector<std::unique_ptr<Entity>>> tileset;
 
-    int indexX = 0;
+    int indexY = 0;
     std::string line;
     while (std::getline(mapFile, line)) {
         std::vector<std::unique_ptr<Entity>> row;
-        int indexY = 0;
+        int indexX = 0;
         for (char x : line) {
 
             switch (x) {
@@ -34,21 +35,22 @@ bool GameManager::setMap(int id) {
                     row.emplace_back(std::make_unique<Wall>(indexX*map.scl,indexY*map.scl));
                     break;
 
-                case 'p':
-                    row.emplace_back(std::make_unique<Pellet>());
+                case '.':
+                    row.emplace_back(std::make_unique<Pellet>(indexX*map.scl,indexY*map.scl, map.scl));
+                    //std::cout << "FPS: " << 123 << ", deltaTime " << 123 << std::endl;
                     break;
 
-                case 'P':
-                    row.emplace_back(std::make_unique<PowerPellet>());
+                case '*':
+                    row.emplace_back(std::make_unique<PowerPellet>(indexX*map.scl,indexY*map.scl, map.scl));
                     break;
 
-                case 'o': //We want it to leak to the default
+                case 'o':
                     map.spawnPoint.x = indexX*map.scl;
                     map.spawnPoint.y = indexY*map.scl;
                     row.emplace_back(nullptr);
                     break;
 
-                case 'c': //We want it to leak to the default
+                case 'c':
                     map.cage.x = indexX*map.scl;
                     map.cage.y = indexY*map.scl;
                     row.emplace_back(nullptr);
@@ -58,9 +60,9 @@ bool GameManager::setMap(int id) {
                     row.emplace_back(nullptr);
 
             }
-            indexY++;
+            indexX++;
         }
-        indexX++;
+        indexY++;
         map.tileset.emplace_back(std::move(row));
 
     }
@@ -91,14 +93,23 @@ void GameManager::run() {
     std::unique_ptr<Controller> player = std::make_unique<PlayerController>(
             SDL_SCANCODE_W,SDL_SCANCODE_S,SDL_SCANCODE_A,SDL_SCANCODE_D
             );
-    player->setCharacter(std::make_unique<Pacman>(map));
+    auto character = std::make_shared<Pacman>(map);
+    player->setCharacter(character);
     players.emplace_back(std::move(player));
+    map.pacman.push_back(character);
 
+
+    std::unique_ptr<Controller> npc = std::make_unique<NpcController>();
+    npc->setCharacter(std::make_shared<Blinky>(map));
+    players.emplace_back(std::move(npc));
+
+
+    currentFrame = std::chrono::high_resolution_clock::now();
     while(!screen.gameOver){
         screen.handleEvents();
         update();
-        getTime();
         render();
+        getTime();
 
     }
 
@@ -108,14 +119,17 @@ void GameManager::render() {
 
     for (int x = 0; x < map.tileset.size(); ++x) {
         for (int y = 0; y < map.tileset[x].size(); ++y) {
-        if(map.tileset[x][y] != nullptr)
+        if(map.tileset[x][y] != nullptr && !map.tileset[x][y]->isDead)
             map.tileset[x][y]->render(screen);
+           // map.tileset[x][y]->update(1,screen);
+
         }
     }
 
 
     for (int i = 0; i<players.size(); i++) {
-        players[i]->character->render(screen);
+        if (!players[i]->character->isDead)
+            players[i]->character->render(screen);
     }
     for (int x = 0; x < 600; x += 40) {
         for (int y = 0; y < 600; y += 40) {
@@ -126,7 +140,7 @@ void GameManager::render() {
             rect.h = 10;
 
             SDL_SetRenderDrawColor(screen.renderer, 50, 50, 50, 255);
-            SDL_RenderFillRect(screen.renderer, &rect);
+            //SDL_RenderFillRect(screen.renderer, &rect);
         }
     }
     screen.render();
@@ -134,13 +148,23 @@ void GameManager::render() {
 }
 
 void  GameManager::getTime() {
+    using std::chrono::high_resolution_clock;
     using namespace std::chrono_literals;
-    auto lastFrame = timeExpired;
-    timeExpired = std::chrono::high_resolution_clock::now();
-    auto timeSpan = std::chrono::duration_cast<std::chrono::milliseconds> (timeExpired - lastFrame);
-    std::this_thread::sleep_for(33ms-timeSpan);
-    frameDuration = timeSpan.count();
-    std::cout << std::chrono::duration_cast<std::chrono::milliseconds> (33ms - timeSpan).count() << std::endl;
+    //auto lastFrame = currentFrame;
+
+    auto timeSpan = std::chrono::duration_cast<std::chrono::microseconds> (high_resolution_clock::now() - currentFrame);
+    int millisPerFrame = (1/framerate)*1000;
+    auto toSleepFor = std::chrono::milliseconds(millisPerFrame)-timeSpan;
+    if (toSleepFor.count() > 0) {
+        std::this_thread::sleep_for(toSleepFor);
+        frameDuration = 1;
+    } else {
+        frameDuration = (timeSpan.count()/1000)/millisPerFrame;
+    }
+    std::cout << "FPS: " << toSleepFor.count()/1000 << ", deltaTime " << frameDuration << std::endl;
+    currentFrame = high_resolution_clock::now();
+    //std::this_thread::sleep_for(std::chrono::milliseconds(100));
+
 
 }
 

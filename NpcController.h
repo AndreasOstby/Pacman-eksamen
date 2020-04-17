@@ -4,12 +4,16 @@
 
 #ifndef PACMAN_EKSAMEN_NPCCONTROLLER_H
 #define PACMAN_EKSAMEN_NPCCONTROLLER_H
+#include "Controller.h"
 
 
-class NpcController {
+class NpcController: public Controller {
 
 public:
-    void move();
+    NpcController();
+
+
+    void move(const Uint8 *keys);
 };
 
 

@@ -7,28 +7,38 @@
 
 #include "Sprite.h"
 #include "Screen.h"
+#include "Rect.h"
+class Character;
+
 
 class Entity {
 
 protected:
-    SDL_Rect position{
-        0,0,0,0
+    Rect position{
+        0,0,10,10
     };
 
+    Rect offset{
+    0,0,0,0
+    };
     std::map<std::string, std::vector<SDL_Rect>> animations;
     std::string state = "default";
     std::string spriteSheet;
     int frame = 0;
 
 public:
+    bool isDead = false;
+    bool isSolid = false;
+
     Entity();
-    bool isColliding(Entity &entity);
+    bool isCollision(Entity& entity);
+    virtual void onCollision(Character &character);
     virtual void action(Entity &entity);
-    virtual void update(long dt, Screen &screen);
+    virtual void update(double dt, Screen &screen);
     Sprite sprite;
     void render(Screen &screen);
     virtual ~Entity(){}
 };
-
+#include "Character.h"
 
 #endif //PACMAN_EKSAMEN_ENTITY_H

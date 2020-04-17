@@ -20,13 +20,15 @@
 #include "Wall.h"
 #include "Pellet.h"
 #include "PowerPellet.h"
+#include "Ghost.h"
 
 
 class GameManager {
-    std::chrono::time_point<std::chrono::steady_clock> timeExpired =
+    std::chrono::time_point<std::chrono::steady_clock> currentFrame =
             std::chrono::high_resolution_clock::now();
 
-    int frameDuration = 0;
+    double frameDuration = 0;
+    double framerate = 30;
 
 public:
     Map map;

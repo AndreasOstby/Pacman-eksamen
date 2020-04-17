@@ -18,8 +18,10 @@ Wall::Wall(int x, int y) {
     position.y = y;
     position.w = 20;
     position.h = 20;
+
+    isSolid = true;
 }
 
-void Wall::update(long dt, Screen &screen) {
+void Wall::update(double dt, Screen &screen) {
     Entity::update(dt, screen);
 }
