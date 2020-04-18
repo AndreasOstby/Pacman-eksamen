@@ -7,8 +7,8 @@
 Ghost::Ghost(Map &newMap): Character(newMap) {
     spriteSheet = "entities";
 
-    position.x = map.cage->getPosition().x;
-    position.y = map.cage->getPosition().y;
+    position.x = map.cage->getPosition().x + floor(map.cage->getPosition().w/2);
+    position.y = map.cage->getPosition().y - map.scl*2;
     position.w = map.scl*2;
     position.h = map.scl*2;
 
@@ -48,6 +48,20 @@ void Ghost::updateVelocity() {
     if(aiState == "Frightened"){
         state = aiState;
     }
+    else if (aiState == "Eaten"){
+        if (velocity.x > 0) {
+            state = "EatenRight";
+        }
+        else if (velocity.x < 0) {
+            state = "EatenLeft";
+        }
+        else if (velocity.y > 0) {
+            state = "EatenDown";
+        }
+        else if (velocity.y < 0) {
+            state = "EatenUp";
+        }
+    }
     else if (velocity.x > 0) {
         state = "moveRight";
     }
@@ -76,12 +90,11 @@ void Ghost::toCheckEveryStep() {
                 pac->kill();
             }
         }
-          //  std::cout << "a: " << pac->isCollision(*this) << std::endl;
+
     }
 
 }
 
 void Ghost::kill() {
     setAiState("Eaten");
-    state = "Eaten";
 }

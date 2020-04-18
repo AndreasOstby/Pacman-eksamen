@@ -11,6 +11,7 @@ void GameManager::setup() {
     screen.init("Game Window", 600, 600);
     screen.loadSprite("../resources/entitySheet_1.png", "entities");
     screen.loadSprite("../resources/wall.png", "wall");
+    screen.loadSprite("../resources/cage.png", "cage");
 
     setMap(0);
 }
@@ -52,8 +53,7 @@ bool GameManager::setMap(int id) {
 
                 case 'c':
 
-                    map.cage = std::make_shared<Cage>(indexX*map.scl-(map.scl*5/2), indexY*map.scl, map.scl*5, map.scl*4);
-
+                    map.cage = std::make_shared<Cage>(indexX*map.scl-(3*map.scl), indexY*map.scl, map.scl*7, map.scl*4);
                     row.push_back(map.cage);
                     break;
 

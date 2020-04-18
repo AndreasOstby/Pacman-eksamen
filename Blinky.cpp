@@ -27,7 +27,6 @@ void Blinky::ai() {
             0,1
         };
 
-
         if(random == 1){
             vel.x = 1;
             vel.y = 0;
@@ -49,8 +48,6 @@ void Blinky::ai() {
         pathfind(rect);
 
 
-
-        //std::cout<<random<<std::endl;
     }else if (aiState == "Eaten"){
         pathfind(map.cage->getPosition());
         if (position.x-map.scl/2 <= map.cage->getPosition().x &&

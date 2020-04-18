@@ -33,7 +33,7 @@ public:
 
 
     Entity();
-    bool isCollision(Entity& entity, SDL_Point extraOffset);
+    bool isCollision(Entity& entity, Rect extraOffset);
     virtual void onCollision(Character &character);
     virtual void action(Entity &entity);
     virtual void update(double dt, Screen &screen);
