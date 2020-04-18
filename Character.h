@@ -29,6 +29,7 @@ protected:
     void checkPelletCollision();
 
 
+
 public:
     int points = 0;
     bool isAi = false;

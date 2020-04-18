@@ -26,30 +26,39 @@ void Blinky::ai() {
         SDL_Point vel{
             0,1
         };
-        if(random == 0 && velocity.y !=-1 && !checkWallCollision(vel) ){
-            newVelocity = vel;
+
+
+        if(random == 1){
+            vel.x = 1;
+            vel.y = 0;
         }
-        vel.x = 1;
-        vel.y = 0;
-        if(random == 1 && velocity.x !=-1 && !checkWallCollision(vel)){
-            newVelocity = vel;
+
+        if(random == 2){
+            vel.x = 0;
+            vel.y = -1;
         }
-        vel.x = 0;
-        vel.y = -1;
-        if(random == 2 && velocity.y !=1 && !checkWallCollision(vel)){
-            newVelocity = vel;
+
+        if(random == 3){
+            vel.x = -1;
+            vel.y = 0;
         }
-        vel.x = -1;
-        vel.y = 0;
-        if(random == 3 && velocity.x !=1 && !checkWallCollision(vel)){
-            newVelocity = vel;
-        }
+
+        Rect rect = position;
+        rect.x += vel.x*map.scl;
+        rect.y += vel.y*map.scl;
+        pathfind(rect);
 
 
 
-        std::cout<<random<<std::endl;
+        //std::cout<<random<<std::endl;
     }else if (aiState == "Eaten"){
-        pathfind(map.cage-> getPosition());
+        pathfind(map.cage->getPosition());
+        if (position.x-map.scl/2 <= map.cage->getPosition().x &&
+                position.x+map.scl/2 >= map.cage->getPosition().x &&
+                position.y-map.scl/2 <= map.cage->getPosition().y-map.scl &&
+                position.y +map.scl/2 >= map.cage->getPosition().x) {
+            setAiState("Chasing");
+        }
     }
 }
 

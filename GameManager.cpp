@@ -10,6 +10,7 @@
 void GameManager::setup() {
     screen.init("Game Window", 600, 600);
     screen.loadSprite("../resources/entitySheet_1.png", "entities");
+    screen.loadSprite("../resources/wall.png", "wall");
 
     setMap(0);
 }

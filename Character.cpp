@@ -31,7 +31,7 @@ void Character::checkPelletCollision() {
             }
 
 
-            if (map.tileset[mapY][mapX] != nullptr && !map.tileset[mapY][mapX]->isDead&&map.tileset[mapY][mapX]->isCollision(*this)) {
+            if (map.tileset[mapY][mapX] != nullptr && !map.tileset[mapY][mapX]->isDead&&map.tileset[mapY][mapX]->isCollision(*this, {0,0})) {
                 map.tileset[mapY][mapX]->onCollision(*this);
             }
         }
@@ -182,6 +182,7 @@ void Character::pathfind(Rect& pos) {
 void Character::frightenGhost() {
     for (int i = 0; i < map.ghost.size() ; ++i) {
         map.ghost[i]->setAiState("Frightened");
+        map.ghost[i]->cooldown = 33*5;
     }
 }
 

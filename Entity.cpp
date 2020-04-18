@@ -15,6 +15,8 @@ void Entity::action(Entity &entity) {
 }
 
 void Entity::update(double dt, Screen &screen) {
+    if (cooldown > 0)
+        cooldown--;
     frame++;
     frame %= animations[state].size();
 }
@@ -27,16 +29,16 @@ void Entity::onCollision(Character &character) {
 
 }
 
-bool Entity::isCollision(Entity &entity) {
+bool Entity::isCollision(Entity &entity, SDL_Point extraOffset) {
 
     //std::cout << "1. x: " << position.x + offset.x << " y: " << position.y + offset.y << " w: " << position.w + offset.w << " h: " << position.h + offset.h << std::endl;
     // std::cout << "2. x: " << entity.position.x + entity.offset.x << " y: " << entity.position.y + entity.offset.y << " w: " << entity.position.w + entity.offset.w << " h: " << entity.position.h + entity.offset.h << std::endl;
 
 
-    return  position.x + offset.x <= entity.position.x + entity.offset.x + entity.position.w + entity.offset.w&&
-            position.x + offset.x + position.w + offset.w >= entity.position.x + entity.offset.x&&
-            position.y + offset.y <= entity.position.y + entity.offset.y + entity.position.h + entity.offset.h&&
-            position.y + offset.y + position.h + offset.h >= entity.position.y + entity.offset.y;
+    return  position.x + offset.x + extraOffset.x <= entity.position.x + entity.offset.x + entity.position.w + entity.offset.w&&
+            position.x + offset.x + position.w + offset.w +extraOffset.x>= entity.position.x + entity.offset.x&&
+            position.y + offset.y + extraOffset.y<= entity.position.y + entity.offset.y + entity.position.h + entity.offset.h&&
+            position.y + offset.y + position.h + offset.h + extraOffset.y >= entity.position.y + entity.offset.y;
 
 }
 

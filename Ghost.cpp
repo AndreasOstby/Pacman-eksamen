@@ -20,7 +20,21 @@ Ghost::Ghost(Map &newMap): Character(newMap) {
     valuesRight.emplace_back(SDL_Rect{tileSize*3,tileSize*7,tileSize,tileSize});
     animations["Frightened"] = valuesRight;
 
+    std::vector<SDL_Rect> values;
+    values.emplace_back(SDL_Rect{0,tileSize*6, tileSize,tileSize});
+    animations["EatenRight"] = values;
 
+    std::vector<SDL_Rect> dvalues;
+    dvalues.emplace_back(SDL_Rect{0,tileSize*8, tileSize,tileSize});
+    animations["EatenDown"] = dvalues;
+
+    std::vector<SDL_Rect> lvalues;
+    lvalues.emplace_back(SDL_Rect{0,tileSize*10, tileSize,tileSize});
+    animations["EatenLeft"] = values;
+
+    std::vector<SDL_Rect> uvalues;
+    uvalues.emplace_back(SDL_Rect{0,tileSize*12, tileSize,tileSize});
+    animations["EatenUp"] = uvalues;
 
 }
 
@@ -52,8 +66,8 @@ void Ghost::toCheckEveryStep() {
     //std::cout << "FPS: " << 2 << std::endl;
 
     for (auto & pac : map.pacman) {
-        if(pac->isCollision(*this) && !isDead) {
-            if(aiState == "Frightened") {
+        if(pac->isCollision(*this, {0,0}) && !isDead) {
+            if(aiState == "Frightened" || aiState == "Eaten") {
                 kill();
 
             }
@@ -65,4 +79,9 @@ void Ghost::toCheckEveryStep() {
           //  std::cout << "a: " << pac->isCollision(*this) << std::endl;
     }
 
+}
+
+void Ghost::kill() {
+    setAiState("Eaten");
+    state = "Eaten";
 }
