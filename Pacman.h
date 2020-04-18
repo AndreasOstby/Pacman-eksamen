@@ -23,6 +23,9 @@ public:
     void updateVelocity() override;
     void toCheckEveryStep() override;
     void ai() override ;
+    void kill() override;
+    int lives = 3;
+    bool hasLost = false;
 };
 
 

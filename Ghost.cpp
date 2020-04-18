@@ -25,15 +25,15 @@ Ghost::Ghost(Map &newMap): Character(newMap) {
     animations["EatenRight"] = values;
 
     std::vector<SDL_Rect> dvalues;
-    dvalues.emplace_back(SDL_Rect{0,tileSize*8, tileSize,tileSize});
+    dvalues.emplace_back(SDL_Rect{tileSize*2,tileSize*6, tileSize,tileSize});
     animations["EatenDown"] = dvalues;
 
     std::vector<SDL_Rect> lvalues;
-    lvalues.emplace_back(SDL_Rect{0,tileSize*10, tileSize,tileSize});
+    lvalues.emplace_back(SDL_Rect{tileSize*4,tileSize*6, tileSize,tileSize});
     animations["EatenLeft"] = values;
 
     std::vector<SDL_Rect> uvalues;
-    uvalues.emplace_back(SDL_Rect{0,tileSize*12, tileSize,tileSize});
+    uvalues.emplace_back(SDL_Rect{tileSize*6,tileSize*6, tileSize,tileSize});
     animations["EatenUp"] = uvalues;
 
 }
@@ -41,6 +41,9 @@ Ghost::Ghost(Map &newMap): Character(newMap) {
 void Ghost::update(double dt, Screen &screen) {
     move(dt, screen);
     Entity::update(dt,screen);
+    if(aiState == "Frightened" && cooldown <= 0){
+        setAiState("Chasing");
+    }
 }
 
 void Ghost::updateVelocity() {

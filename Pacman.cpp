@@ -32,6 +32,19 @@ Pacman::Pacman(Map& newMap): Character(newMap) {
     valuesDown.emplace_back(SDL_Rect{tileSize*8,0,tileSize,tileSize});
     animations["moveDown"] = valuesDown;
 
+    std::vector<SDL_Rect> death;
+    death.emplace_back(SDL_Rect{tileSize*0,tileSize*1,tileSize,tileSize});
+    death.emplace_back(SDL_Rect{tileSize*1,tileSize*1,tileSize,tileSize});
+    death.emplace_back(SDL_Rect{tileSize*2,tileSize*1,tileSize,tileSize});
+    death.emplace_back(SDL_Rect{tileSize*3,tileSize*1,tileSize,tileSize});
+    death.emplace_back(SDL_Rect{tileSize*4,tileSize*1,tileSize,tileSize});
+    death.emplace_back(SDL_Rect{tileSize*5,tileSize*1,tileSize,tileSize});
+    death.emplace_back(SDL_Rect{tileSize*6,tileSize*1,tileSize,tileSize});
+    death.emplace_back(SDL_Rect{tileSize*7,tileSize*1,tileSize,tileSize});
+    death.emplace_back(SDL_Rect{tileSize*8,tileSize*1,tileSize,tileSize});
+    death.emplace_back(SDL_Rect{tileSize*9,tileSize*1,tileSize,tileSize});
+    animations["death"] = death;
+
   /*  std::string dir = "../resources/entitySheet_1.png"; // .c_str();
     char* dirChar = const_cast<char *>(dir.c_str());
     sprite = Sprite(dirChar, renderer, animations);
@@ -51,8 +64,18 @@ Pacman::Pacman(Map& newMap): Character(newMap) {
 }
 
 void Pacman::update(double dt, Screen &screen) {
-    move(dt, screen);
+    if(!isDead){
+        move(dt, screen);
+    }
     Entity::update(dt, screen);
+    if(frame == 0 && isDead){
+        position.x = map.spawnPoint.x;
+        position.y = map.spawnPoint.y;
+        lives--;
+        isDead = false;
+        state = "moveUp";
+        hasLost = (lives == 0);
+    }
 }
 
 void Pacman::updateVelocity() {
@@ -78,6 +101,12 @@ void Pacman::toCheckEveryStep() {
 
 void Pacman::ai() {
 
+}
+
+void Pacman::kill() {
+    Entity::kill();
+    frame = 0;
+    state = "death";
 }
 
 

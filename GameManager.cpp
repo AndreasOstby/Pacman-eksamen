@@ -145,21 +145,18 @@ void GameManager::render() {
 
 
     for (int i = 0; i<players.size(); i++) {
-        if (!players[i]->character->isDead)
-            players[i]->character->render(screen);
-    }
-    for (int x = 0; x < 600; x += 40) {
-        for (int y = 0; y < 600; y += 40) {
-            SDL_Rect rect;
-            rect.x = x-5;
-            rect.y = y-5;
-            rect.w = 10;
-            rect.h = 10;
-
-            SDL_SetRenderDrawColor(screen.renderer, 50, 50, 50, 255);
-            //SDL_RenderFillRect(screen.renderer, &rect);
+     //   if (!players[i]->character->isDead)
+        players[i]->character->render(screen);
+        Pacman* p = dynamic_cast<Pacman*>(players[i]->character.get());
+        if(p != nullptr){
+            for (int j = 0; j < p->lives; ++j) {
+                SDL_Rect rect{0,0,32,32};
+                SDL_Rect pos{0,0,32,32};
+                screen.draw(p->spriteSheet, &pos, &rect);
+            }
         }
     }
+
     screen.render();
     screen.clear();
 }
