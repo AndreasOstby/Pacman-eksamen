@@ -13,7 +13,7 @@ public:
     ~Wall(){
 
     }
-    Wall(int x, int y);
+    Wall(int x, int y, int scl);
     void update(double dt, Screen &screen) override;
 
 };

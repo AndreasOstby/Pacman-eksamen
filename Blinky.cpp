@@ -8,7 +8,7 @@
 
 void Blinky::ai() {
     std::shared_ptr<Character> closest;
-    double pDistance = 1000;
+    double pDistance = 1000;//std::max(map.w, map.h);
     for (int i = 0; i < map.pacman.size(); ++i) {
         double currentDistance = map.pacman[i]->getDistance(position, velocity);
         if(currentDistance < pDistance){
@@ -55,6 +55,7 @@ void Blinky::ai() {
                 position.y-map.scl/2 <= map.cage->getPosition().y-map.scl &&
                 position.y +map.scl/2 >= map.cage->getPosition().x) {
             setAiState("Chasing");
+            speed = initSpeed;
         }
     }
 }

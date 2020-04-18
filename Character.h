@@ -19,7 +19,8 @@ protected:
     SDL_Point newVelocity {
         1,0
     };
-    float speed = 3;
+    float initSpeed = 3;
+    float speed = initSpeed;
     Map& map;
     std::string aiState = "Chasing";
     void pathfind(Rect& pos);

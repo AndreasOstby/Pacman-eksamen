@@ -17,7 +17,7 @@ public:
     void update(double dt, Screen &screen) override;
     void updateVelocity() override;
     void toCheckEveryStep() override;
-    void kill();
+    void kill() override;
 
 };
 

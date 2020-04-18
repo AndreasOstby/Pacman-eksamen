@@ -97,4 +97,5 @@ void Ghost::toCheckEveryStep() {
 
 void Ghost::kill() {
     setAiState("Eaten");
+    speed = initSpeed*3;
 }

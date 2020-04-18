@@ -8,7 +8,7 @@
 
 
 void GameManager::setup() {
-    screen.init("Game Window", 600, 600);
+    screen.init("Game Window", 600, 800);
     screen.loadSprite("../resources/entitySheet_1.png", "entities");
     screen.loadSprite("../resources/wall.png", "wall");
     screen.loadSprite("../resources/cage.png", "cage");
@@ -24,6 +24,9 @@ bool GameManager::setMap(int id) {
         return false;
     }
 
+    int recordX = 0;
+    int recordY = 0;
+
     int indexY = 0;
     std::string line;
     while (std::getline(mapFile, line)) {
@@ -33,7 +36,7 @@ bool GameManager::setMap(int id) {
 
             switch (x) {
                 case 'w':
-                    row.push_back(std::make_shared<Wall>(indexX*map.scl,indexY*map.scl));
+                    row.push_back(std::make_shared<Wall>(indexX*map.scl,indexY*map.scl, map.scl));
                     break;
 
                 case '.':
@@ -62,8 +65,10 @@ bool GameManager::setMap(int id) {
 
             }
             indexX++;
+            if (indexX > recordX) recordX = indexX;
         }
         indexY++;
+        if (indexY > recordY) recordY = indexY;
 
         /*for (int x = 0; x < map.cage.getPosition().w/map.scl; ++x) {
             for (int y = 0; y < map.cage.getPosition().h/map.scl; ++y) {
@@ -74,6 +79,9 @@ bool GameManager::setMap(int id) {
         map.tileset.emplace_back(std::move(row));
 
     }
+
+    map.w = recordX;
+    map.h = recordY;
 
     //flips the tileset so it is in the right direction
 

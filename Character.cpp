@@ -26,7 +26,7 @@ void Character::checkPelletCollision() {
             int mapX = floor(position.x / map.scl) + x;
             int mapY = floor(position.y / map.scl) + y;
 
-            if (mapX >= map.tileset.size() || mapY >= map.tileset[mapY].size() || mapX < 0 || mapY < 0) {
+            if (mapY >= map.tileset.size() || mapX >= map.tileset[mapY].size() || mapX < 0 || mapY < 0) {
                 continue;
             }
 
@@ -44,8 +44,7 @@ bool Character::checkWallCollision(SDL_Point &vel) {
 
             int mapX = floor(position.x / map.scl) + vel.x * 2 + x + std::max(vel.x * -1, 0);
             int mapY = floor(position.y / map.scl) + vel.y * 2 + y + std::max(vel.y * -1, 0);
-
-            if (mapX >= map.tileset.size() || mapY >= map.tileset[mapY].size() || mapX < 0 || mapY < 0) {
+            if (mapY >= map.tileset.size() || mapX >= map.tileset[mapY].size() || mapX < 0 || mapY < 0) {
                 continue;
             }
 
@@ -69,7 +68,7 @@ bool Character::stopAtIntersection(double &distanceLeft, Screen &screen) {
 }
 
 void Character::calculateMove(double &pos, int &vel, double &distanceLeft, Screen &screen) {
-    double diff = std::fmod(static_cast<double>(vel) * map.scl - std::fmod(pos, map.scl), map.scl);
+    double diff = std::fmod(vel * map.scl - std::fmod(pos, map.scl), map.scl);
 
 
     if (diff == 0 && stopAtIntersection(distanceLeft, screen)) {
@@ -166,6 +165,7 @@ void Character::frightenGhost() {
     for (int i = 0; i < map.ghost.size(); ++i) {
         map.ghost[i]->setAiState("Frightened");
         map.ghost[i]->cooldown = 33 * 5;
+        map.ghost[i]->speed = initSpeed*.9;
     }
 }
 

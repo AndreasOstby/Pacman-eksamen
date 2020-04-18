@@ -19,6 +19,8 @@ struct Map {
     SDL_Point spawnPoint{0, 0};
     std::shared_ptr<Cage> cage;
     double scl = 20;
+    double w = 0;
+    double h = 0;
     Map(int newScl);
     Map();
 };
