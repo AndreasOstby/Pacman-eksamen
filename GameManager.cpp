@@ -93,8 +93,8 @@ bool GameManager::setMap(int id) {
     map.w = recordX;
     map.h = recordY;
 
-    for (int i = 0; i < map.ghost.size(); ++i) {
-        map.ghost[i]->setPosition(
+    for (auto & ghost : map.ghost) {
+        ghost->setPosition(
             map.cage->getPosition().x + floor(map.cage->getPosition().w/2) - map.scl,
             map.cage->getPosition().y + map.scl,
             map.scl*2,
@@ -102,11 +102,10 @@ bool GameManager::setMap(int id) {
             );
     }
 
-    for (int i = 0; i < map.pacman.size(); ++i) {
-        Pacman* p = dynamic_cast<Pacman*>(map.pacman[i].get());
+    for (auto & pacman : map.pacman) {
+        Pacman* p = dynamic_cast<Pacman*>(pacman.get());
         p->lives = 3;
     }
-
 
 
     // Checks neighbor walls to connect the sprites
@@ -280,7 +279,10 @@ void GameManager::gameover() {
     std::string sprite = "gameover";
     screen.draw(sprite, &pos, &rect);
     screen.render();
+
+    // Bad practise, but low on time
     std::this_thread::sleep_for(3s);
+
     setMap(0);
     getTime();
 }
@@ -293,6 +295,8 @@ void GameManager::nextLevel() {
     std::string sprite = "nextlevel";
     screen.draw(sprite, &pos, &rect);
     screen.render();
+
+    // Bad practise, but low on time
     std::this_thread::sleep_for(3s);
 
     if (!setMap(map.id+1)) {

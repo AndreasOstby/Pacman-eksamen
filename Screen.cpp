@@ -53,10 +53,7 @@ Screen::~Screen() {
 }
 
 void Screen::draw(std::string& spriteSheet, SDL_Rect *coord, SDL_Rect *crop) {
-
     SDL_RenderCopy(renderer, spritesLoaded[spriteSheet], crop, coord);
-
-
 }
 
 void Screen::clear() {

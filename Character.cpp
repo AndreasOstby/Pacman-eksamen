@@ -83,6 +83,7 @@ void Character::calculateMove(double &pos, int &vel, double &distanceLeft) {
         updateVelocity();
         distanceLeft = 0;
     } else if (distanceLeft >= abs(diff) && diff != 0) {
+        // If at tilepos
         pos += diff;
         if (isAi) {
             ai();
@@ -127,17 +128,21 @@ void Character::move(double dt) {
         } else if (velocity.y != 0) {
             calculateMove(position.y, velocity.y, distanceLeft);
         }
+        //Check each movement frame
         toCheckEveryStep();
     }
 }
 
 double Character::getDistance(Rect &rect, SDL_Point &offsetVel) {
+    //Pytagoras theorem
     return std::sqrt(
-            std::pow((position.x + offsetVel.x) - (rect.x), 2) + std::pow((position.y + offsetVel.y) - (rect.y), 2));
+            std::pow((position.x + offsetVel.x) - (rect.x), 2) +
+            std::pow((position.y + offsetVel.y) - (rect.y), 2)
+            );
 }
 
 void Character::pathfind(Rect &pos) {
-    double record = 1000;
+    double record = std::max(map.w * map.scl, map.h * map.scl);
     SDL_Point newNewVelocity = {0, -1};
     if (velocity.y != 1 && !checkWallCollision(newNewVelocity)) {
 
@@ -178,7 +183,6 @@ void Character::pathfind(Rect &pos) {
 
         if (currentDistance < record) {
             newVelocity = newNewVelocity;
-            record = currentDistance;
         }
 
     }
@@ -190,6 +194,10 @@ void Character::frightenGhost() {
         ghost->setAiState("Frightened");
         ghost->cooldown = 33 * 5;
         ghost->speed = initSpeed*.9;
+
+        // Turn 180 degrees as in original
+        ghost->velocity.x = ghost->velocity.x*-1;
+        ghost->velocity.y = ghost->velocity.y*-1;
     }
 }
 
