@@ -18,7 +18,8 @@ public:
     void updateVelocity() override;
     void toCheckEveryStep() override;
     void kill() override;
-
+    void ai()override;
+    virtual void aiChase() = 0 ;
 };
 
 

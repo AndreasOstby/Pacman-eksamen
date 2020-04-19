@@ -8,7 +8,7 @@ Ghost::Ghost(Map &newMap): Character(newMap) {
     spriteSheet = "entities";
 
     position.x = map.cage->getPosition().x + floor(map.cage->getPosition().w/2);
-    position.y = map.cage->getPosition().y - map.scl*2;
+    position.y = map.cage->getPosition().y;
     position.w = map.scl*2;
     position.h = map.scl*2;
 
@@ -88,7 +88,7 @@ void Ghost::toCheckEveryStep() {
                 kill();
 
             }
-            else
+            else if (!pac->isDead)
             {
                 pac->kill();
             }
@@ -101,4 +101,51 @@ void Ghost::toCheckEveryStep() {
 void Ghost::kill() {
     setAiState("Eaten");
     speed = initSpeed*3;
+}
+
+void Ghost::ai() {
+
+    if (aiState == "Chasing") {
+        aiChase();
+    } else if (aiState == "Frightened" ) {
+        std::random_device rd;
+        std::mt19937 mt(rd());
+        std::uniform_int_distribution<int>dist (0,3);
+        int random = dist(mt);
+        SDL_Point vel{
+                0,1
+        };
+
+        if(random == 1){
+            vel.x = 1;
+            vel.y = 0;
+        }
+
+        if(random == 2){
+            vel.x = 0;
+            vel.y = -1;
+        }
+
+        if(random == 3){
+            vel.x = -1;
+            vel.y = 0;
+        }
+
+        Rect rect = position;
+        rect.x += vel.x*map.scl;
+        rect.y += vel.y*map.scl;
+        pathfind(rect);
+
+
+    }else if (aiState == "Eaten"){
+        pathfind(map.cage->getPosition());
+        if (position.x-map.scl/2 <= map.cage->getPosition().x &&
+            position.x+map.scl/2 >= map.cage->getPosition().x &&
+            position.y-map.scl/2 <= map.cage->getPosition().y-map.scl &&
+            position.y +map.scl/2 >= map.cage->getPosition().x) {
+            setAiState("Chasing");
+            speed = initSpeed;
+        }
+    }
+
 }

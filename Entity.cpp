@@ -7,7 +7,7 @@
 
 void Entity::render(Screen& screen) {
     SDL_Rect pos = position.getSDLRect();
-    screen.draw(spriteSheet, &pos, &animations[state][frame]);
+    screen.draw(spriteSheet, &pos, &animations[state][floor(frame)]);
 }
 
 void Entity::action(Entity &entity) {
@@ -16,9 +16,9 @@ void Entity::action(Entity &entity) {
 
 void Entity::update(double dt, Screen &screen) {
     if (cooldown > 0)
-        cooldown--;
-    frame++;
-    frame %= animations[state].size();
+        cooldown -= dt;
+    frame+=.25;
+    frame = std::fmod(frame, animations[state].size());
 }
 
 Entity::Entity() {

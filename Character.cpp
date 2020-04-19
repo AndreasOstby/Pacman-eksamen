@@ -81,6 +81,18 @@ void Character::calculateMove(double &pos, int &vel, double &distanceLeft, Scree
             ai();
         }
         distanceLeft -= abs(diff);
+        if (position.x >= map.w*map.scl){
+            position.x = -map.scl;
+        }
+        if (position.x < -map.scl){
+            position.x = (map.w-1)*map.scl;
+        }
+        if (position.y >= map.h*map.scl){
+            position.y = -map.scl;
+        }
+        if (position.y < -map.scl){
+            position.y = (map.h-1)*map.scl;
+        }
     } else {
         pos += distanceLeft * vel;
         distanceLeft = 0;

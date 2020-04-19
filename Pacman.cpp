@@ -69,6 +69,14 @@ void Pacman::update(double dt, Screen &screen) {
     }
     Entity::update(dt, screen);
     if(frame == 0 && isDead){
+        for (int i = map.cage->index-1; i >= 0; --i) {
+            map.ghost[i]->getPosition().x = map.cage->getPosition().x + floor(map.cage->getPosition().w/2);
+            map.ghost[i]->getPosition().y = map.cage->getPosition().y - map.scl*2;
+            map.ghost[i]->velocity.x = 1;
+            map.ghost[i]->velocity.y = 0;
+
+        }
+
         position.x = map.spawnPoint.x;
         position.y = map.spawnPoint.y;
         lives--;

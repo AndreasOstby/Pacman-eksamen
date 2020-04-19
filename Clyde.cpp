@@ -4,9 +4,7 @@
 
 #include "Clyde.h"
 
-void Clyde::ai() {
 
-}
 
 Clyde::Clyde(Map &newMap) : Ghost(newMap) {
     std::vector<SDL_Rect> valuesRight;
@@ -32,4 +30,24 @@ Clyde::Clyde(Map &newMap) : Ghost(newMap) {
     valuesDown.emplace_back(SDL_Rect{tileSize*3,tileSize*5,tileSize,tileSize});
     animations["moveDown"] = valuesDown;
 
+}
+
+void Clyde::aiChase() {
+    std::shared_ptr<Character> closest;
+    double pDistance = std::max(map.w*map.scl, map.h*map.scl);
+    for (auto & pacman : map.pacman) {
+        double currentDistance = pacman->getDistance(position, velocity);
+        if(currentDistance < pDistance){
+            closest = pacman;
+            pDistance = currentDistance;
+        }
+    }
+
+    Rect rect{
+            closest->getPosition().x + closest->velocity.y*map.scl*8,
+            closest->getPosition().y + closest->velocity.x*map.scl*8,
+            closest->getPosition().w,
+            closest->getPosition().h
+    };
+    pathfind(rect);
 }

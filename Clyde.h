@@ -10,8 +10,8 @@
 
 class Clyde : public Ghost {
 public:
-    Clyde(Map &newMap);
-    void ai() override;
+    explicit Clyde(Map &newMap);
+    void aiChase() override;
 
 };
 

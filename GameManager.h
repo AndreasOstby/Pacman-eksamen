@@ -9,6 +9,7 @@
 #include <chrono>
 #include <fstream>
 #include <thread>
+#include <sstream>
 
 #include "Map.h"
 #include "Entity.h"
@@ -40,9 +41,9 @@ public:
     void update();
     Screen screen;
     void render();
-    void getTimeDifference();
     void getTime();
-
+    void gameover();
+    void nextLevel();
 
 
 };

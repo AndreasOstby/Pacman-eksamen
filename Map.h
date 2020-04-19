@@ -21,6 +21,7 @@ struct Map {
     double scl = 20;
     double w = 0;
     double h = 0;
+    int id = 0;
     Map(int newScl);
     Map();
 };

@@ -5,6 +5,9 @@
 #include "NpcController.h"
 #include "Blinky.h"
 #include "Cage.h"
+#include "Inky.h"
+#include "Pinky.h"
+#include "Clyde.h"
 
 
 void GameManager::setup() {
@@ -12,17 +15,26 @@ void GameManager::setup() {
     screen.loadSprite("../resources/entitySheet_1.png", "entities");
     screen.loadSprite("../resources/wall.png", "wall");
     screen.loadSprite("../resources/cage.png", "cage");
+    screen.loadSprite("../resources/gameover.png", "gameover");
+    screen.loadSprite("../resources/NextLevel.png", "nextlevel");
 
     setMap(0);
 }
 
 bool GameManager::setMap(int id) {
 
-    std::ifstream mapFile ("../Maps/0.txt");
+    std::stringstream text;
+    text<<"../Maps/"<<id<<".txt";
+
+    std::ifstream mapFile (text.str());
     if (!mapFile.is_open())
     {
         return false;
     }
+
+    map.id = id;
+
+    map.tileset.clear();
 
     int recordX = 0;
     int recordY = 0;
@@ -51,6 +63,10 @@ bool GameManager::setMap(int id) {
                 case 'o':
                     map.spawnPoint.x = indexX*map.scl;
                     map.spawnPoint.y = indexY*map.scl;
+                    for (int i = 0; i < map.pacman.size(); ++i) {
+                        map.pacman[i]->getPosition().x = map.spawnPoint.x;
+                        map.pacman[i]->getPosition().y = map.spawnPoint.y;
+                    }
                     row.emplace_back(nullptr);
                     break;
 
@@ -83,21 +99,62 @@ bool GameManager::setMap(int id) {
     map.w = recordX;
     map.h = recordY;
 
+    for (int i = 0; i < map.ghost.size(); ++i) {
+        map.ghost[i]->setPosition(
+            map.cage->getPosition().x + floor(map.cage->getPosition().w/2),
+            map.cage->getPosition().y,
+            map.scl*2,
+            map.scl*2
+            );
+    }
+
+    for (int i = 0; i < map.pacman.size(); ++i) {
+        Pacman* p = dynamic_cast<Pacman*>(map.pacman[i].get());
+        p->lives = 3;
+    }
+
+
+
     //flips the tileset so it is in the right direction
 
-   /* for (int x = 0; x < map.tileset.size(); ++x) {
-        std::vector<std::unique_ptr<Entity>> col;
-        for (int y = 0; y < map.tileset[x].size(); ++y) {
-            col.emplace_back(std::move(tileset[x][y]));
+   for (int y = 0; y < map.tileset.size(); ++y) {
+        for (int x = 0; x < map.tileset[y].size(); ++x) {
+            Wall* w = dynamic_cast<Wall*>(map.tileset[y][x].get());
+
+            /*if (w != nullptr) {
+                std::stringstream state;
+
+                if (y-1 >= 0 && dynamic_cast<Wall*>(map.tileset[y-1][x].get()) != nullptr){
+                    state << "u";
+                }
+
+                if (x+1 < map.tileset[y].size() && dynamic_cast<Wall*>(map.tileset[y][x+1].get()) != nullptr){
+                    state << "r";
+                }
+
+                if (y+1 < map.tileset.size() && dynamic_cast<Wall*>(map.tileset[y+1][x].get()) != nullptr){
+                    state << "d";
+                }
+
+
+                if (x-1 >= 0 && dynamic_cast<Wall*>(map.tileset[y][x-1].get()) != nullptr){
+                    state << "l";
+                }
+
+                std::cout << state.str() << x << y << std::endl;
+
+                map.tileset[x][y]->state = state.str();
+            }*/
         }
-        map.tileset.emplace_back(std::move(col));
-    }*/
+    }
 
     mapFile.close();
     return true;
 }
 
 void GameManager::update() {
+    map.cage->update(1,screen);
+    map.cage->spawnghost(map);
     for (int i = 0; i<players.size(); i++){
         players[i]->move(screen.keys);
         players[i]->character->update(frameDuration, screen);
@@ -121,6 +178,24 @@ void GameManager::run() {
     players.emplace_back(std::move(npc));
     map.ghost.push_back(blinky);
 
+    std::unique_ptr<Controller> inpc = std::make_unique<NpcController>();
+    auto inky = std::make_shared<Inky>(map);
+    inpc->setCharacter(inky);
+    players.emplace_back(std::move(inpc));
+    map.ghost.push_back(inky);
+
+    std::unique_ptr<Controller> pnpc = std::make_unique<NpcController>();
+    auto pinky = std::make_shared<Pinky>(map);
+    pnpc->setCharacter(pinky);
+    players.emplace_back(std::move(pnpc));
+    map.ghost.push_back(pinky);
+
+    std::unique_ptr<Controller> cnpc = std::make_unique<NpcController>();
+    auto clyde = std::make_shared<Clyde>(map);
+    cnpc->setCharacter(clyde);
+    players.emplace_back(std::move(cnpc));
+    map.ghost.push_back(clyde);
+
     currentFrame = std::chrono::high_resolution_clock::now();
     while(!screen.gameOver){
         screen.handleEvents();
@@ -143,19 +218,22 @@ void GameManager::render() {
         }
     }
 
-
-    for (int i = 0; i<players.size(); i++) {
+    bool isGameOver = true;
+    for (auto & player : players) {
      //   if (!players[i]->character->isDead)
-        players[i]->character->render(screen);
-        Pacman* p = dynamic_cast<Pacman*>(players[i]->character.get());
+        player->character->render(screen);
+        auto* p = dynamic_cast<Pacman*>(player->character.get());
         if(p != nullptr){
             for (int j = 0; j < p->lives; ++j) {
                 SDL_Rect rect{0,0,32,32};
-                SDL_Rect pos{0,0,32,32};
+                SDL_Rect pos{(32+5)*j,static_cast<int>(map.h*map.scl+16),32,32};
                 screen.draw(p->spriteSheet, &pos, &rect);
+                isGameOver = false;
             }
         }
     }
+
+    if (isGameOver)gameover();
 
     screen.render();
     screen.clear();
@@ -180,5 +258,34 @@ void  GameManager::getTime() {
     //std::this_thread::sleep_for(std::chrono::milliseconds(100));
 
 
+}
+
+void GameManager::gameover() {
+    using namespace std::chrono_literals;
+
+    SDL_Rect rect{0,0,160,32};
+    SDL_Rect pos{static_cast<int>(map.w*map.scl/2-160),static_cast<int>(map.h*map.scl/2 - 32),320,64};
+    std::string sprite = "gameover";
+    screen.draw(sprite, &pos, &rect);
+    screen.render();
+    std::this_thread::sleep_for(3s);
+    setMap(0);
+    getTime();
+}
+
+void GameManager::nextLevel() {
+    using namespace std::chrono_literals;
+
+    SDL_Rect rect{0,0,160,32};
+    SDL_Rect pos{static_cast<int>(map.w*map.scl/2-160),static_cast<int>(map.h*map.scl/2 - 32),320,64};
+    std::string sprite = "nextlevel";
+    screen.draw(sprite, &pos, &rect);
+    screen.render();
+    std::this_thread::sleep_for(3s);
+
+    if (!setMap(map.id+1)) {
+        setMap(0);
+    }
+    getTime();
 }
 

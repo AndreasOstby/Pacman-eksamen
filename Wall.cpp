@@ -5,35 +5,40 @@
 #include "Wall.h"
 
 Wall::Wall(int x, int y, int scl) {
-    spriteSheet = "entities";
+    spriteSheet = "wall";
 
+    int tileSize = 8;
     std::vector<SDL_Rect> u;
-    u.emplace_back(SDL_Rect{0,0,8,8});
+    u.emplace_back(SDL_Rect{tileSize*3,tileSize*2,8,8});
     animations["u"] = u;
 
     std::vector<SDL_Rect> ur;
-    ur.emplace_back(SDL_Rect{0,0,8,8});
+    ur.emplace_back(SDL_Rect{tileSize*3,0,8,8});
     animations["ur"] = ur;
 
     std::vector<SDL_Rect> urd;
-    urd.emplace_back(SDL_Rect{0,0,8,8});
+    urd.emplace_back(SDL_Rect{tileSize,0,8,8});
     animations["urd"] = urd;
 
     std::vector<SDL_Rect> urdl;
-    urdl.emplace_back(SDL_Rect{0,0,8,8});
+    urdl.emplace_back(SDL_Rect{tileSize,tileSize,8,8});
     animations["urdl"] = urdl;
 
     std::vector<SDL_Rect> udl;
-    udl.emplace_back(SDL_Rect{0,0,8,8});
+    udl.emplace_back(SDL_Rect{tileSize*2,tileSize,8,8});
     animations["udl"] = udl;
 
     std::vector<SDL_Rect> ud;
-    ud.emplace_back(SDL_Rect{0,0,8,8});
+    ud.emplace_back(SDL_Rect{tileSize*3,tileSize,8,8});
     animations["ud"] = ud;
 
     std::vector<SDL_Rect> rd;
     rd.emplace_back(SDL_Rect{0,0,8,8});
     animations["rd"] = rd;
+
+    std::vector<SDL_Rect> rl;
+    rd.emplace_back(SDL_Rect{0,0,8,8});
+    animations["rl"] = rl;//
 
     state = "u";
     setPosition(x, y, scl, scl);
@@ -42,5 +47,6 @@ Wall::Wall(int x, int y, int scl) {
 }
 
 void Wall::update(double dt, Screen &screen) {
-    Entity::update(dt, screen);
+
 }
+

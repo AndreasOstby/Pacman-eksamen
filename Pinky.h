@@ -10,8 +10,8 @@
 
 class Pinky  : public Ghost {
 public:
-    Pinky(Map &newMap);
-    void ai() override;
+    explicit Pinky(Map &newMap);
+    void aiChase() override;
 
 };
 

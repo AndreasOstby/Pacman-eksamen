@@ -30,7 +30,22 @@ Inky::Inky(Map &newMap) : Ghost(newMap) {
     animations["moveDown"] = valuesDown;
 }
 
+void Inky::aiChase() {
+    std::shared_ptr<Character> closest;
+    double pDistance = std::max(map.w*map.scl, map.h*map.scl);
+    for (auto & pacman : map.pacman) {
+        double currentDistance = pacman->getDistance(position, velocity);
+        if(currentDistance < pDistance){
+            closest = pacman;
+            pDistance = currentDistance;
+        }
+    }
 
-void Inky::ai() {
-
+    Rect rect{
+        closest->getPosition().x + closest->velocity.x*map.scl*8,
+        closest->getPosition().y + closest->velocity.y*map.scl*8,
+        closest->getPosition().w,
+        closest->getPosition().h
+    };
+    pathfind(rect);
 }

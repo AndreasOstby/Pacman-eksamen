@@ -10,8 +10,8 @@
 
 class Inky : public Ghost {
 public:
-    Inky(Map &newMap);
-    void ai() override;
+    explicit Inky(Map &newMap);
+    void aiChase() override;
 
 };
 

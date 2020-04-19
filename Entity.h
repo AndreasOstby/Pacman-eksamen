@@ -22,15 +22,15 @@ protected:
     0,0,0,0
     };
     std::map<std::string, std::vector<SDL_Rect>> animations;
-    std::string state = "default";
 
-    int frame = 0;
+    float frame = 0;
 
 public:
     bool isDead = false;
     bool isSolid = false;
     int cooldown = 0;
     std::string spriteSheet;
+    std::string state = "default";
 
     Entity();
     bool isCollision(Entity& entity, Rect extraOffset);

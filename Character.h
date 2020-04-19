@@ -13,9 +13,6 @@ class Map;
 class Character: public Entity {
 
 protected:
-    SDL_Point velocity {
-        1,0
-    };
     SDL_Point newVelocity {
         1,0
     };
@@ -30,8 +27,10 @@ protected:
     void checkPelletCollision();
 
 
-
 public:
+    SDL_Point velocity {
+        1,0
+    };
     int points = 0;
     bool isAi = false;
 
