@@ -83,8 +83,6 @@ void Ghost::updateVelocity() {
 }
 
 void Ghost::toCheckEveryStep() {
-    //std::cout << "FPS: " << 2 << std::endl;
-
     for (auto &pac : map.pacman) {
         if (pac->isCollision(*this, {0, 0}) && !isDead) {
             if (aiState == "Frightened" || aiState == "Eaten") {
@@ -158,13 +156,14 @@ void Ghost::ai() {
 
 }
 
-std::shared_ptr<Character> Ghost::getClosestPacman() {
-    std::shared_ptr<Character> closest;
-    double pDistance = std::max(map.w * map.scl, map.h * map.scl);
-    for (auto &pacman : map.pacman) {
-        double currentDistance = pacman->getDistance(position, velocity);
+int Ghost::getClosestPacman() {
+    int closest = 0;
+    double pDistance = DBL_MAX;
+
+    for (int i = 0; i < map.pacman.size(); ++i) {
+        double currentDistance = map.pacman[i]->getDistance(position, velocity);
         if (currentDistance < pDistance) {
-            closest = pacman;
+            closest = i;
             pDistance = currentDistance;
         }
     }

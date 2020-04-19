@@ -253,7 +253,6 @@ void GameManager::render() {
 void  GameManager::getTime() {
     using std::chrono::high_resolution_clock;
     using namespace std::chrono_literals;
-    //auto lastFrame = currentFrame;
 
     auto timeSpan = std::chrono::duration_cast<std::chrono::microseconds> (high_resolution_clock::now() - currentFrame);
     int millisPerFrame = (1.0/framerate)*1000.0;
@@ -264,10 +263,7 @@ void  GameManager::getTime() {
     } else {
         frameDuration = (timeSpan.count()/1000.0)/millisPerFrame;
     }
-    // std::cout << "FPS: " << toSleepFor.count()/1000 << ", deltaTime " << frameDuration << std::endl;
     currentFrame = high_resolution_clock::now();
-    //std::this_thread::sleep_for(std::chrono::milliseconds(100));
-
 
 }
 

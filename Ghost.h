@@ -21,7 +21,7 @@ public:
     void ai()override;
     virtual void aiScatter() = 0;
     virtual void aiChase() = 0;
-    std::shared_ptr<Character> getClosestPacman();
+    int getClosestPacman();
 };
 
 

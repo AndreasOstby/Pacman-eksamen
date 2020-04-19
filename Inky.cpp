@@ -33,13 +33,13 @@ Inky::Inky(Map &newMap) : Ghost(newMap) {
 }
 
 void Inky::aiChase() {
-    std::shared_ptr<Character> closest = getClosestPacman();
+    int closest = getClosestPacman();
 
     Rect rect{
-        closest->getPosition().x + closest->velocity.x*map.scl*8,
-        closest->getPosition().y + closest->velocity.y*map.scl*8,
-        closest->getPosition().w,
-        closest->getPosition().h
+        map.pacman[closest]->getPosition().x + map.pacman[closest]->velocity.x*map.scl*8,
+        map.pacman[closest]->getPosition().y + map.pacman[closest]->velocity.y*map.scl*8,
+        map.pacman[closest]->getPosition().w,
+        map.pacman[closest]->getPosition().h
     };
     pathfind(rect);
 }

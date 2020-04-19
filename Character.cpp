@@ -77,11 +77,11 @@ void Character::calculateMove(double &pos, int &vel, double &distanceLeft) {
     //      (x = 5, scl = 9, vel = -1) = -5
     double diff = std::fmod(vel * map.scl - std::fmod(pos, map.scl), map.scl);
 
-
     if (diff == 0 && stopAtIntersection(distanceLeft)) {
         setVelocity(0, 0);
         updateVelocity();
         distanceLeft = 0;
+
     } else if (distanceLeft >= abs(diff) && diff != 0) {
         // If at tilepos
         pos += diff;
@@ -90,7 +90,6 @@ void Character::calculateMove(double &pos, int &vel, double &distanceLeft) {
         }
         distanceLeft -= abs(diff);
 
-        // Screen wrap, should be own function
         wrap();
     } else {
         pos += distanceLeft * vel;
@@ -142,7 +141,7 @@ double Character::getDistance(Rect &rect, SDL_Point &offsetVel) {
 }
 
 void Character::pathfind(Rect &pos) {
-    double record = std::max(map.w * map.scl, map.h * map.scl);
+    double record = DBL_MAX;
     SDL_Point newNewVelocity = {0, -1};
     if (velocity.y != 1 && !checkWallCollision(newNewVelocity)) {
 
@@ -198,6 +197,7 @@ void Character::frightenGhost() {
         // Turn 180 degrees as in original
         ghost->velocity.x = ghost->velocity.x*-1;
         ghost->velocity.y = ghost->velocity.y*-1;
+
     }
 }
 

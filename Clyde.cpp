@@ -33,14 +33,14 @@ Clyde::Clyde(Map &newMap) : Ghost(newMap) {
 }
 
 void Clyde::aiChase() {
-    std::shared_ptr<Character> closest = getClosestPacman();
-    double pDistance = closest->getDistance(position, velocity);
+    int closest = getClosestPacman();
+    double pDistance = map.pacman[closest]->getDistance(position, velocity);
 
     Rect rect{
-            closest->getPosition().x + closest->velocity.x*map.scl*8,
-            closest->getPosition().y + closest->velocity.y*map.scl*8,
-            closest->getPosition().w,
-            closest->getPosition().h
+            map.pacman[closest]->getPosition().x + map.pacman[closest]->velocity.x*map.scl*8,
+            map.pacman[closest]->getPosition().y + map.pacman[closest]->velocity.y*map.scl*8,
+            map.pacman[closest]->getPosition().w,
+            map.pacman[closest]->getPosition().h
     };
 
     pathfind(rect);

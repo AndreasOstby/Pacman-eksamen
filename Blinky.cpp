@@ -32,8 +32,8 @@ Blinky::Blinky(Map &newMap) : Ghost(newMap) {
 }
 
 void Blinky::aiChase() {
-    std::shared_ptr<Character> closest = getClosestPacman();
-    pathfind(closest->getPosition());
+    int closest = getClosestPacman();
+    pathfind(map.pacman[closest]->getPosition());
 }
 
 
