@@ -11,7 +11,7 @@
 class PowerPellet: public Pellet {
 public:
     PowerPellet(int x, int y, double scl);
-    void update(double dt, Screen &screen) override;
+    void update(double dt) override;
     void onCollision(Character &character) override;
 };
 

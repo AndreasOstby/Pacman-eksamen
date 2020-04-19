@@ -18,11 +18,12 @@ protected:
     };
     float initSpeed = 3;
     float speed = initSpeed;
+    // Should be shared pointer
     Map& map;
     std::string aiState = "Chasing";
     void pathfind(Rect& pos);
-    void calculateMove(double &pos, int &vel, double &distanceLeft, Screen &screen);
-    bool stopAtIntersection(double &distanceLeft, Screen &screen);
+    void calculateMove(double &pos, int &vel, double &distanceLeft);
+    bool stopAtIntersection(double &distanceLeft);
     bool checkWallCollision(SDL_Point& vel);
     void checkPelletCollision();
 
@@ -37,7 +38,7 @@ public:
     Character(Map& newMap);
     void frightenGhost();
     double getDistance(Rect& rect, SDL_Point& offsetVel);
-    void move(double dt, Screen &screen);
+    void move(double dt);
     void setVelocity(int x,int y);
     virtual void updateVelocity();
     virtual void toCheckEveryStep()=0;
@@ -45,6 +46,7 @@ public:
     void setAiState(std::string newState);
     virtual ~Character(){};
 
+    void wrap();
 };
 
 

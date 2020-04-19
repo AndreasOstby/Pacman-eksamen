@@ -32,15 +32,7 @@ Pinky::Pinky(Map &newMap) : Ghost(newMap) {
 }
 
 void Pinky::aiChase() {
-    std::shared_ptr<Character> closest;
-    double pDistance = std::max(map.w*map.scl, map.h*map.scl);
-    for (auto & pacman : map.pacman) {
-        double currentDistance = pacman->getDistance(position, velocity);
-        if(currentDistance < pDistance){
-            closest = pacman;
-            pDistance = currentDistance;
-        }
-    }
+    std::shared_ptr<Character> closest = getClosestPacman();
 
     Rect rect{
             closest->getPosition().x - closest->velocity.x*map.scl*8,
@@ -48,5 +40,10 @@ void Pinky::aiChase() {
             closest->getPosition().w,
             closest->getPosition().h
     };
+    pathfind(rect);
+}
+
+void Pinky::aiScatter() {
+    Rect rect{0, 0};
     pathfind(rect);
 }

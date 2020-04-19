@@ -27,6 +27,7 @@ public:
     const Uint8 *keys;
     int numKeys;
     void clear();
+    void resize(int w, int h);
 };
 
 

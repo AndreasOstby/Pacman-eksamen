@@ -63,9 +63,9 @@ bool GameManager::setMap(int id) {
                 case 'o':
                     map.spawnPoint.x = indexX*map.scl;
                     map.spawnPoint.y = indexY*map.scl;
-                    for (int i = 0; i < map.pacman.size(); ++i) {
-                        map.pacman[i]->getPosition().x = map.spawnPoint.x;
-                        map.pacman[i]->getPosition().y = map.spawnPoint.y;
+                    for (auto & pacman : map.pacman) {
+                        pacman->getPosition().x = map.spawnPoint.x;
+                        pacman->getPosition().y = map.spawnPoint.y;
                     }
                     row.emplace_back(nullptr);
                     break;
@@ -95,8 +95,8 @@ bool GameManager::setMap(int id) {
 
     for (int i = 0; i < map.ghost.size(); ++i) {
         map.ghost[i]->setPosition(
-            map.cage->getPosition().x + floor(map.cage->getPosition().w/2),
-            map.cage->getPosition().y,
+            map.cage->getPosition().x + floor(map.cage->getPosition().w/2) - map.scl,
+            map.cage->getPosition().y + map.scl,
             map.scl*2,
             map.scl*2
             );
@@ -109,15 +109,14 @@ bool GameManager::setMap(int id) {
 
 
 
-    //flips the tileset so it is in the right direction
-
+    // Checks neighbor walls to connect the sprites
    for (int y = 0; y < map.tileset.size(); ++y) {
         for (int x = 0; x < map.tileset[y].size(); ++x) {
             Wall* w = dynamic_cast<Wall*>(map.tileset[y][x].get());
             if (w != nullptr) {
                 std::stringstream state;
 
-                if (y-1 >= 0 && dynamic_cast<Wall*>(map.tileset[y-1][x].get()) != nullptr){
+                if (y-1 >= 0 && x < map.tileset[y].size() && x < map.tileset[y-1].size() && dynamic_cast<Wall*>(map.tileset[y-1][x].get()) != nullptr){
                     state << "u";
                 }
 
@@ -125,7 +124,7 @@ bool GameManager::setMap(int id) {
                     state << "r";
                 }
 
-                if (y+1 < map.tileset.size() && dynamic_cast<Wall*>(map.tileset[y+1][x].get()) != nullptr){
+                if (y+1 < map.tileset.size() && x < map.tileset[y+1].size() && dynamic_cast<Wall*>(map.tileset[y+1][x].get()) != nullptr){
                     state << "d";
                 }
 
@@ -134,23 +133,30 @@ bool GameManager::setMap(int id) {
                     state << "l";
                 }
 
-                std::cout << state.str() << x << y << std::endl;
+                std::string newState = state.str();
 
-                map.tileset[y][x]->state = state.str();
+                if (newState == "") {
+                    newState = "b";
+                }
+
+                map.tileset[y][x]->state = newState;
             }
         }
     }
 
     mapFile.close();
+
+    screen.resize(map.scl*map.w, map.scl*(map.h+2));
+
     return true;
 }
 
 void GameManager::update() {
-    map.cage->update(1,screen);
+    map.cage->update(frameDuration);
     map.cage->spawnghost(map);
-    for (int i = 0; i<players.size(); i++){
-        players[i]->move(screen.keys);
-        players[i]->character->update(frameDuration, screen);
+    for (auto & player : players){
+        player->move(screen.keys);
+        player->character->update(frameDuration);
     }
 
 
@@ -165,6 +171,7 @@ void GameManager::run() {
     player->setCharacter(character);
     players.emplace_back(std::move(player));
     map.pacman.push_back(character);
+
 
 
     std::unique_ptr<Controller> npc = std::make_unique<NpcController>();
@@ -213,18 +220,21 @@ void GameManager::render() {
 
     bool isGameOver = true;
     for (auto & player : players) {
-     //   if (!players[i]->character->isDead)
         player->character->render(screen);
-        auto* p = dynamic_cast<Pacman*>(player->character.get());
-        if(p != nullptr){
-            for (int j = 0; j < p->lives; ++j) {
-                SDL_Rect rect{0,0,32,32};
-                SDL_Rect pos{static_cast<int>((map.scl*2)*j),static_cast<int>(map.h*map.scl),static_cast<int>(map.scl*2),static_cast<int>(map.scl*2)};
-                screen.draw(p->spriteSheet, &pos, &rect);
-                isGameOver = false;
-            }
-        }
     }
+
+    for (int i = 0; i < map.pacman.size(); ++i) {
+        auto* p = dynamic_cast<Pacman*>(map.pacman[i].get());
+        for (int j = 0; j < p->lives; ++j) {
+            SDL_Rect rect{0,0,32,32};
+            SDL_Rect pos{static_cast<int>((map.scl*2)*j + (8*map.scl)*i),static_cast<int>(map.h*map.scl),static_cast<int>(map.scl*2),static_cast<int>(map.scl*2)};
+            screen.draw(p->spriteSheet, &pos, &rect);
+            isGameOver = false;
+        }
+
+    }
+
+
     bool isNextLevel = true;
     for (int x = 0; x < map.tileset.size(); ++x) {
         for (int y = 0; y < map.tileset[x].size(); ++y) {
@@ -247,7 +257,7 @@ void  GameManager::getTime() {
     //auto lastFrame = currentFrame;
 
     auto timeSpan = std::chrono::duration_cast<std::chrono::microseconds> (high_resolution_clock::now() - currentFrame);
-    int millisPerFrame = (1.0/framerate)*1000;
+    int millisPerFrame = (1.0/framerate)*1000.0;
     auto toSleepFor = std::chrono::milliseconds(millisPerFrame)-timeSpan;
     if (toSleepFor.count() > 0) {
         std::this_thread::sleep_for(toSleepFor);

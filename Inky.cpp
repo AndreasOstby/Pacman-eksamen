@@ -6,8 +6,10 @@
 
 
 Inky::Inky(Map &newMap) : Ghost(newMap) {
-    std::vector<SDL_Rect> valuesRight;
+
+    // Setting animations
     int tileSize = 32;
+    std::vector<SDL_Rect> valuesRight;
     valuesRight.emplace_back(SDL_Rect{0,tileSize*4, tileSize,tileSize});
     valuesRight.emplace_back(SDL_Rect{tileSize,tileSize*4,tileSize,tileSize});
     animations["moveRight"] = valuesRight;
@@ -31,15 +33,7 @@ Inky::Inky(Map &newMap) : Ghost(newMap) {
 }
 
 void Inky::aiChase() {
-    std::shared_ptr<Character> closest;
-    double pDistance = std::max(map.w*map.scl, map.h*map.scl);
-    for (auto & pacman : map.pacman) {
-        double currentDistance = pacman->getDistance(position, velocity);
-        if(currentDistance < pDistance){
-            closest = pacman;
-            pDistance = currentDistance;
-        }
-    }
+    std::shared_ptr<Character> closest = getClosestPacman();
 
     Rect rect{
         closest->getPosition().x + closest->velocity.x*map.scl*8,
@@ -47,5 +41,10 @@ void Inky::aiChase() {
         closest->getPosition().w,
         closest->getPosition().h
     };
+    pathfind(rect);
+}
+
+void Inky::aiScatter() {
+    Rect rect{map.scl*map.w, map.scl*map.h};
     pathfind(rect);
 }

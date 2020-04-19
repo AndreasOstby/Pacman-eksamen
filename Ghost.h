@@ -14,12 +14,14 @@ class Ghost:public Character{
 
 public:
     explicit Ghost(Map& newMap);
-    void update(double dt, Screen &screen) override;
+    void update(double dt) override;
     void updateVelocity() override;
     void toCheckEveryStep() override;
     void kill() override;
     void ai()override;
-    virtual void aiChase() = 0 ;
+    virtual void aiScatter() = 0;
+    virtual void aiChase() = 0;
+    std::shared_ptr<Character> getClosestPacman();
 };
 
 

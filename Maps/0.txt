@@ -4,8 +4,8 @@ w.    .     . w.     .    . w
 w* www. wwww. w. wwww. www* w
 w. www. wwww. w. wwww. www. w
 w.......................... w
-w.       .        .  .    . w
-w. www  w. wwwwwww. w. www. w
+w.    .  .        .  .    . w
+w. www. w. wwwwwww. w. www. w
 w...... w.... w.... w...... w
 w     . w     w     w.      w
 wwwwww. wwww  w  wwww. wwwwww
@@ -19,14 +19,14 @@ wwwwww. w           w. wwwwww
 wwwwww. w           w. wwwwww
 wwwwww. w  wwwwwww  w. wwwwww
 w............ w............ w
-w.          . w.          . w
-w. www  wwww. w. wwww  www. w
-w*.. w....... o....... w..* w
-w  . w.              . w.   w
-www. w. w  wwwwwww  w. w. www
+w.    .     . w.     .    . w
+w. www. wwww. w. wwww. www. w
+w*.. w......  o ...... w..* w
+w  . w.  .        .  . w.   w
+www. w. w. wwwwwww. w. w. www
 w...... w.... w.... w...... w
-w.      w     w     w     . w
-w. wwwwwwwww  w  wwwwwwwww. w
+w.      w   . w.    w     . w
+w. wwwwwwwww. w. wwwwwwwww. w
 w.......................... w
 w                           w
 wwwwwwwwwwwwwwwwwwwwwwwwwwwww

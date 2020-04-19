@@ -12,7 +12,7 @@ class Inky : public Ghost {
 public:
     explicit Inky(Map &newMap);
     void aiChase() override;
-
+    void aiScatter() override;
 };
 
 

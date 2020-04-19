@@ -11,7 +11,7 @@ class Map;
 class Cage: public Entity {
 public:
     Cage(double x, double y, int w, int h);
-    void update(double dt, Screen &screen) override;
+    void update(double dt) override;
     int index = 0;
     void spawnghost(Map& map);
 };

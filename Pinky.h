@@ -12,7 +12,7 @@ class Pinky  : public Ghost {
 public:
     explicit Pinky(Map &newMap);
     void aiChase() override;
-
+    void aiScatter() override;
 };
 
 

@@ -10,11 +10,7 @@ void Entity::render(Screen& screen) {
     screen.draw(spriteSheet, &pos, &animations[state][floor(frame)]);
 }
 
-void Entity::action(Entity &entity) {
-
-}
-
-void Entity::update(double dt, Screen &screen) {
+void Entity::update(double dt) {
     if (cooldown > 0)
         cooldown -= dt;
     frame+=.25;

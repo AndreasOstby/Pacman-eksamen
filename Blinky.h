@@ -11,8 +11,9 @@
 class Blinky : public Ghost {
 public:
     explicit Blinky(Map &newMap);
-
+    void aiScatter() override;
     void aiChase()override;
+
 };
 
 

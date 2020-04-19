@@ -14,7 +14,7 @@ public:
 
     }
     Wall(int x, int y, int scl);
-    void update(double dt, Screen &screen) override;
+    void update(double dt) override;
 
 };
 

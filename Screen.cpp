@@ -75,3 +75,8 @@ void Screen::loadSprite(std::string dir, std::string name) {
     SDL_FreeSurface(sur);
 }
 
+void Screen::resize(int w, int h) {
+    SDL_SetWindowSize(window, w, h);
+
+}
+

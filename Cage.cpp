@@ -17,14 +17,14 @@ Cage::Cage(double x, double y, int w, int h) {
 
 }
 
-void Cage::update(double dt, Screen &screen) {
-    Entity::update(dt, screen);
+void Cage::update(double dt) {
+    Entity::update(dt);
 
 }
 
 void Cage::spawnghost(Map &map) {
+    //Spawns ghosts outside cage
     if (cooldown <= 0&& index < map.ghost.size()){
-        std::cout<<"heiaheia";
         map.ghost[index]->getPosition().x = position.x + floor(position.w/2);
         map.ghost[index]->getPosition().y = position.y - map.scl*2;
         map.ghost[index]->velocity.x = 1;

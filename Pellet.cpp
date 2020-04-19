@@ -27,8 +27,8 @@ Pellet::Pellet(int x, int y, double scl) {
 
 }
 
-void Pellet::update(double dt, Screen &screen) {
-    Entity::update(dt, screen);
+void Pellet::update(double dt) {
+    Entity::update(dt);
     /*SDL_Rect rect;
     rect.x = position.x + offset.x;
     rect.y = position.y + offset.y;

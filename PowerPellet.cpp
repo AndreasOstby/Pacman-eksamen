@@ -20,13 +20,12 @@ PowerPellet::PowerPellet(int x, int y, double scl) : Pellet(x, y, scl) {
     state = "default";
 }
 
-void PowerPellet::update(double dt, Screen &screen) {
-    Pellet::update(dt, screen);
+void PowerPellet::update(double dt) {
+    Pellet::update(dt);
 }
 
 void PowerPellet::onCollision(Character &character) {
     character.points += 500;
     character.frightenGhost();
     isDead = true;
-    std::cout << "samma hva det står her" << std::endl;
 }

@@ -39,6 +39,8 @@ void Character::checkPelletCollision() {
 }
 
 bool Character::checkWallCollision(SDL_Point &vel) {
+
+    // Checks two in front of pacman
     for (int x = 0; x < 2 - abs(vel.x); ++x) {
         for (int y = 0; y < 2 - abs(vel.y); ++y) {
 
@@ -58,20 +60,25 @@ bool Character::checkWallCollision(SDL_Point &vel) {
     return map.cage->isCollision(*this, {static_cast<double>(-vel.x), static_cast<double>(-vel.y)});
 }
 
-bool Character::stopAtIntersection(double &distanceLeft, Screen &screen) {
+bool Character::stopAtIntersection(double &distanceLeft) {
 
-
+    // Wont set newVelocity until the way is clear, this way pacman cant run into a wall
     if (!checkWallCollision(newVelocity)) {
         updateVelocity();
     }
     return checkWallCollision(velocity);
 }
 
-void Character::calculateMove(double &pos, int &vel, double &distanceLeft, Screen &screen) {
+void Character::calculateMove(double &pos, int &vel, double &distanceLeft) {
+
+    // Calculates how far it is to next tile according to velocity
+    // E.g:
+    //      (x = 5, scl = 9, vel = 1) = 4
+    //      (x = 5, scl = 9, vel = -1) = -5
     double diff = std::fmod(vel * map.scl - std::fmod(pos, map.scl), map.scl);
 
 
-    if (diff == 0 && stopAtIntersection(distanceLeft, screen)) {
+    if (diff == 0 && stopAtIntersection(distanceLeft)) {
         setVelocity(0, 0);
         updateVelocity();
         distanceLeft = 0;
@@ -81,18 +88,9 @@ void Character::calculateMove(double &pos, int &vel, double &distanceLeft, Scree
             ai();
         }
         distanceLeft -= abs(diff);
-        if (position.x >= map.w*map.scl){
-            position.x = -map.scl;
-        }
-        if (position.x < -map.scl){
-            position.x = (map.w-1)*map.scl;
-        }
-        if (position.y >= map.h*map.scl){
-            position.y = -map.scl;
-        }
-        if (position.y < -map.scl){
-            position.y = (map.h-1)*map.scl;
-        }
+
+        // Screen wrap, should be own function
+        wrap();
     } else {
         pos += distanceLeft * vel;
         distanceLeft = 0;
@@ -100,20 +98,34 @@ void Character::calculateMove(double &pos, int &vel, double &distanceLeft, Scree
 
 }
 
-void Character::move(double dt, Screen &screen) {
+void Character::wrap() {
+    if (position.x >= map.w * map.scl){
+        position.x = -map.scl;
+    }
+    if (position.x < -map.scl){
+        position.x = (map.w - 1) * map.scl;
+    }
+    if (position.y >= map.h * map.scl){
+        position.y = -map.scl;
+    }
+    if (position.y < -map.scl){
+        position.y = (map.h - 1) * map.scl;
+    }
+}
+
+void Character::move(double dt) {
     if (velocity.x == 0 && velocity.y == 0) {
         updateVelocity();
         toCheckEveryStep();
         return;
     }
 
-    double distanceLeft = speed * dt;//(dt/33)*60*speed;
-    //std::cout << "x: " << newvel << "  y:" << newVelocity.y << std::endl;
+    double distanceLeft = speed * dt;
     while (distanceLeft > 0) {
         if (velocity.x != 0) {
-            calculateMove(position.x, velocity.x, distanceLeft, screen);
+            calculateMove(position.x, velocity.x, distanceLeft);
         } else if (velocity.y != 0) {
-            calculateMove(position.y, velocity.y, distanceLeft, screen);
+            calculateMove(position.y, velocity.y, distanceLeft);
         }
         toCheckEveryStep();
     }
@@ -174,10 +186,10 @@ void Character::pathfind(Rect &pos) {
 }
 
 void Character::frightenGhost() {
-    for (int i = 0; i < map.ghost.size(); ++i) {
-        map.ghost[i]->setAiState("Frightened");
-        map.ghost[i]->cooldown = 33 * 5;
-        map.ghost[i]->speed = initSpeed*.9;
+    for (auto & ghost : map.ghost) {
+        ghost->setAiState("Frightened");
+        ghost->cooldown = 33 * 5;
+        ghost->speed = initSpeed*.9;
     }
 }
 

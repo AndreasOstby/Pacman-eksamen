@@ -4,13 +4,11 @@
 
 #include "Blinky.h"
 
-
-
-
-
 Blinky::Blinky(Map &newMap) : Ghost(newMap) {
-    std::vector<SDL_Rect> valuesRight;
+
+    // Setting animations
     int tileSize = 32;
+    std::vector<SDL_Rect> valuesRight;
     valuesRight.emplace_back(SDL_Rect{0,tileSize*2, tileSize,tileSize});
     valuesRight.emplace_back(SDL_Rect{tileSize,tileSize*2,tileSize,tileSize});
     animations["moveRight"] = valuesRight;
@@ -34,14 +32,13 @@ Blinky::Blinky(Map &newMap) : Ghost(newMap) {
 }
 
 void Blinky::aiChase() {
-    std::shared_ptr<Character> closest;
-    double pDistance = std::max(map.w*map.scl, map.h*map.scl);
-    for (auto & pacman : map.pacman) {
-        double currentDistance = pacman->getDistance(position, velocity);
-        if(currentDistance < pDistance){
-            closest = pacman;
-            pDistance = currentDistance;
-        }
-    }
+    std::shared_ptr<Character> closest = getClosestPacman();
     pathfind(closest->getPosition());
+}
+
+
+
+void Blinky::aiScatter() {
+    Rect rect{map.scl*map.w, 0};
+    pathfind(rect);
 }

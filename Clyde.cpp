@@ -33,21 +33,27 @@ Clyde::Clyde(Map &newMap) : Ghost(newMap) {
 }
 
 void Clyde::aiChase() {
-    std::shared_ptr<Character> closest;
-    double pDistance = std::max(map.w*map.scl, map.h*map.scl);
-    for (auto & pacman : map.pacman) {
-        double currentDistance = pacman->getDistance(position, velocity);
-        if(currentDistance < pDistance){
-            closest = pacman;
-            pDistance = currentDistance;
-        }
-    }
+    std::shared_ptr<Character> closest = getClosestPacman();
+    double pDistance = closest->getDistance(position, velocity);
 
     Rect rect{
-            closest->getPosition().x + closest->velocity.y*map.scl*8,
-            closest->getPosition().y + closest->velocity.x*map.scl*8,
+            closest->getPosition().x + closest->velocity.x*map.scl*8,
+            closest->getPosition().y + closest->velocity.y*map.scl*8,
             closest->getPosition().w,
             closest->getPosition().h
     };
+
     pathfind(rect);
+
+    if (pDistance < 8*map.scl) {
+        setAiState("Scatter");
+        cooldown = 33*3;
+    }
+}
+
+void Clyde::aiScatter() {
+
+    Rect rect{0, map.scl * map.h};
+    pathfind(rect);
+
 }

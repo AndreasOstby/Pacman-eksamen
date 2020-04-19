@@ -45,29 +45,19 @@ Pacman::Pacman(Map& newMap): Character(newMap) {
     death.emplace_back(SDL_Rect{tileSize*9,tileSize*1,tileSize,tileSize});
     animations["death"] = death;
 
-  /*  std::string dir = "../resources/entitySheet_1.png"; // .c_str();
-    char* dirChar = const_cast<char *>(dir.c_str());
-    sprite = Sprite(dirChar, renderer, animations);
-    sprite.setState(key);
-*/
     position.x = map.spawnPoint.x;
     position.y = map.spawnPoint.y;
     position.w = map.scl*2;
     position.h = map.scl*2;
 
-    /*offset.x = map.scl/5;
-    offset.y = map.scl/5;
-    offset.w = -map.scl/5*2;
-    offset.h = -map.scl/5*2;*/
-
 
 }
 
-void Pacman::update(double dt, Screen &screen) {
+void Pacman::update(double dt) {
     if(!isDead){
-        move(dt, screen);
+        move(dt);
     }
-    Entity::update(dt, screen);
+    Entity::update(dt);
     if(frame == 0 && isDead){
         for (int i = map.cage->index-1; i >= 0; --i) {
             map.ghost[i]->getPosition().x = map.cage->getPosition().x + floor(map.cage->getPosition().w/2);
