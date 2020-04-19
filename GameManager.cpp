@@ -57,7 +57,7 @@ bool GameManager::setMap(int id) {
                     break;
 
                 case '*':
-                    row.emplace_back(std::make_shared<PowerPellet>(indexX*map.scl,indexY*map.scl, map.scl));
+                    row.emplace_back(std::make_shared<PowerPellet>(indexX*map.scl + map.scl/2,indexY*map.scl + map.scl/2, map.scl));
                     break;
 
                 case 'o':
@@ -85,12 +85,6 @@ bool GameManager::setMap(int id) {
         }
         indexY++;
         if (indexY > recordY) recordY = indexY;
-
-        /*for (int x = 0; x < map.cage.getPosition().w/map.scl; ++x) {
-            for (int y = 0; y < map.cage.getPosition().h/map.scl; ++y) {
-                map.tileset[y][x] = std::make_shared<Cage>(map.cage);
-            }
-        }*/
 
         map.tileset.emplace_back(std::move(row));
 
@@ -120,8 +114,7 @@ bool GameManager::setMap(int id) {
    for (int y = 0; y < map.tileset.size(); ++y) {
         for (int x = 0; x < map.tileset[y].size(); ++x) {
             Wall* w = dynamic_cast<Wall*>(map.tileset[y][x].get());
-
-            /*if (w != nullptr) {
+            if (w != nullptr) {
                 std::stringstream state;
 
                 if (y-1 >= 0 && dynamic_cast<Wall*>(map.tileset[y-1][x].get()) != nullptr){
@@ -143,8 +136,8 @@ bool GameManager::setMap(int id) {
 
                 std::cout << state.str() << x << y << std::endl;
 
-                map.tileset[x][y]->state = state.str();
-            }*/
+                map.tileset[y][x]->state = state.str();
+            }
         }
     }
 
@@ -159,6 +152,8 @@ void GameManager::update() {
         players[i]->move(screen.keys);
         players[i]->character->update(frameDuration, screen);
     }
+
+
 }
 
 
@@ -213,8 +208,6 @@ void GameManager::render() {
         for (int y = 0; y < map.tileset[x].size(); ++y) {
         if(map.tileset[x][y] != nullptr && !map.tileset[x][y]->isDead)
             map.tileset[x][y]->render(screen);
-           // map.tileset[x][y]->update(1,screen);
-
         }
     }
 
@@ -226,14 +219,23 @@ void GameManager::render() {
         if(p != nullptr){
             for (int j = 0; j < p->lives; ++j) {
                 SDL_Rect rect{0,0,32,32};
-                SDL_Rect pos{(32+5)*j,static_cast<int>(map.h*map.scl+16),32,32};
+                SDL_Rect pos{static_cast<int>((map.scl*2)*j),static_cast<int>(map.h*map.scl),static_cast<int>(map.scl*2),static_cast<int>(map.scl*2)};
                 screen.draw(p->spriteSheet, &pos, &rect);
                 isGameOver = false;
             }
         }
     }
+    bool isNextLevel = true;
+    for (int x = 0; x < map.tileset.size(); ++x) {
+        for (int y = 0; y < map.tileset[x].size(); ++y) {
+            if(map.tileset[x][y] != nullptr && dynamic_cast<Pellet*>(map.tileset[x][y].get()) != nullptr && !map.tileset[x][y]->isDead)
+                isNextLevel = false;
+        }
+    }
+    if (isNextLevel) nextLevel();
 
     if (isGameOver)gameover();
+
 
     screen.render();
     screen.clear();
@@ -245,7 +247,7 @@ void  GameManager::getTime() {
     //auto lastFrame = currentFrame;
 
     auto timeSpan = std::chrono::duration_cast<std::chrono::microseconds> (high_resolution_clock::now() - currentFrame);
-    int millisPerFrame = (1/framerate)*1000;
+    int millisPerFrame = (1.0/framerate)*1000;
     auto toSleepFor = std::chrono::milliseconds(millisPerFrame)-timeSpan;
     if (toSleepFor.count() > 0) {
         std::this_thread::sleep_for(toSleepFor);
